@@ -1,8 +1,8 @@
 # Embedded
 Some embedded knowledge, especially for interview.
 
-## Hardware
-### Hardware Interface
+## [Hardware](https://github.com/lowkeyway/Embedded/tree/master/Hardware)
+### [Hardware Interface](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Hardware%20Interface)
 + **UART**
 + **IIC**
 + **SPI**
@@ -10,14 +10,14 @@ Some embedded knowledge, especially for interview.
 + **MIPI**
 + **USB**
 
-### Process Architecture
+### [Process Architecture](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Processor%20architecture)
 * **ARM**
 * **RISV-V**
 
-## Software
-### Compile
+## [Software](https://github.com/lowkeyway/Embedded/tree/master/Software)
+### [Compile](https://github.com/lowkeyway/Embedded/tree/master/Software/Compile)
 
-### Language
+### [Language](https://github.com/lowkeyway/Embedded/tree/master/Software/Language)
 + **C**
 + **C++**
 + **Python**
@@ -25,7 +25,7 @@ Some embedded knowledge, especially for interview.
 + **Shell**
 + **Makefile**
 
-### OS
+### [OS](https://github.com/lowkeyway/Embedded/tree/master/Software/OS)
 + **Linux**
 + **Android**
 + **Threadx**
