@@ -18,7 +18,7 @@ Some embedded knowledge, especially for interview.
 ### [Compile](https://github.com/lowkeyway/Embedded/tree/master/Software/Compile)
 
 ### [Language](https://github.com/lowkeyway/Embedded/tree/master/Software/Language)
-+ **C**
++ **[C](https://github.com/lowkeyway/Embedded/tree/master/Software/Language/C)**
 + **C++**
 + **Python**
 + **Batch**
