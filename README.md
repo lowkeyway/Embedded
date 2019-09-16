@@ -11,7 +11,7 @@ Some embedded knowledge, especially for interview.
 + **USB**
 
 ### [Process Architecture](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Processor%20architecture)
-* **ARM**
+* **[ARM](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Processor%20architecture/ARM)**
 * **RISV-V**
 
 ## [Software](https://github.com/lowkeyway/Embedded/tree/master/Software)
