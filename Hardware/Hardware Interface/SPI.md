@@ -20,6 +20,8 @@ MOSI | Master Out Slave In | 主设备数据输出，从设备数据输入 |
 MISO | Master In Slave Out | 主设备数据输入，从设备数据输出 |
 SCLK | Serial Clock | 时钟信号，主设备输出 |
 
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SPI%20PIN.gif"/>
+
 ## 通讯模式
 
 SPI通信有4种不同的模式，不同的从设备可能在出厂是就是配置为某种模式，这是不能改变的；但我们的通信双方必须是工作在同一模式下，所以我们可以对我们的主设备的SPI模式进行配置，通过CPOL（时钟极性）和CPHA（时钟相位）来控制我们主设备的通信模式，具体如下
@@ -32,3 +34,5 @@ SPI通信有4种不同的模式，不同的从设备可能在出厂是就是配�
 + CPOL=1，表示当SCLK=1时处于空闲态，所以有效状态就是SCLK处于低电平时
 + CPHA=0，表示数据采样是在第1个边沿，数据发送在第2个边沿
 + CPHA=1，表示数据采样是在第2个边沿，数据发送在第1个边沿
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SPI%20Mode.gif"/>
