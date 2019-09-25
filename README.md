@@ -5,7 +5,7 @@ Some embedded knowledge, especially for interview.
 ### [Hardware Interface](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Hardware%20Interface)
 + **UART**
 + **IIC**
-+ **SPI**
++ [**SPI**](https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/SPI.md)
 + **SDIO**
 + **MIPI**
 + **USB**
