@@ -36,3 +36,10 @@ SPI通信有4种不同的模式，不同的从设备可能在出厂是就是配�
 + CPHA=1，表示数据采样是在第2个边沿，数据发送在第1个边沿
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SPI%20Mode.gif"/>
+
+
+
+## 缺点
+
+SPI通讯没有指定的流控制，没有应答机制确认是否接收到数据。
+如果要check发送的数据是否正确，需要增加Slave的Response机制。
