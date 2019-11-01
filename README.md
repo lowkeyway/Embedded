@@ -3,7 +3,7 @@ Some embedded knowledge, especially for interview.
 
 ## [Hardware](https://github.com/lowkeyway/Embedded/tree/master/Hardware)
 ### [Hardware Interface](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Hardware%20Interface)
-+ **UART**
++ **[UART](https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/UART.md)**
 + **IIC**
 + [**SPI**](https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/SPI.md)
 + **SDIO**
