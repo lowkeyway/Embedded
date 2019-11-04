@@ -20,7 +20,7 @@ Some embedded knowledge, especially for interview.
 ### [Language](https://github.com/lowkeyway/Embedded/tree/master/Software/Language)
 + **[C](https://github.com/lowkeyway/Embedded/tree/master/Software/Language/C)**
 + **C++**
-+ **Python**
++ **[Python](https://github.com/lowkeyway/Embedded/tree/master/Software/Language/Python)**
 + **Batch**
 + **Shell**
 + **Makefile**
