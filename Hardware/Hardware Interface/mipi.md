@@ -4,8 +4,8 @@
 
 ### 1、传输模式
 
-+ **LP（Low-Power）模式**：用于传输控制信号，最高速率 10 MHz
-+ **HS（High-Speed）模式**：用于高速传输数据，速率范围 [80 Mbps， 1Gbps] per Lane
++ LP（Low-Power）模式：用于传输控制信号，最高速率 10 MHz
++ HS（High-Speed）模式：用于高速传输数据，速率范围 [80 Mbps， 1Gbps] per Lane
 
 传输的最小单元为 1 个字节，采用小端的方式及 LSB first，MSB last。
 
