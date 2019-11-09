@@ -3,5 +3,5 @@
 + **[IIC](https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/IIC.md)**
 + [**SPI**](https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/SPI.md)
 + **SDIO**
-+ **MIPI**
++ **[MIPI](https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/mipi.md)**
 + **USB**
