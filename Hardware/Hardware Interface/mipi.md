@@ -2,6 +2,8 @@
 
 ## D-PHY
 
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/D%20Option.png">
+
 ### 1、传输模式
 
 + LP（Low-Power）模式：用于传输控制信号，最高速率 10 MHz
@@ -31,17 +33,22 @@ HS 发送器发送的数据 LP 接收器看到的都是 LP00，
   + 进入时序：LP11→LP10→LP00→LP01→LP00，
   + 退出时序：LP10→LP11
 
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/Escape%20Enter.png">
 
 + **High-Speed mode**
   + 进入时序：LP11→LP01→LP00→SoT(0001_1101)
   + 退出时序：EoT→LP11
   
+  <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/HS-LP.png">
   
 + **Turnaround**
   + 进入时序：LP11→LP10→LP00→LP10→LP00
   + 退出时序：LP00→LP10→LP11
 
++ **ULPS和低速传输**
 当进入 Escape mode 需要发送 8-bit entry command 表明请求的动作，比如要进行低速数据传输则需要发送 **cmd： 0x87**，进入超低功耗模式则发送 **cmd： 0x78**。在 DSI 中 LP 通讯只用 Data Lane 0。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/ULPS%20Enter.png">
 
 
  ### 5、时序要求
@@ -49,5 +56,11 @@ HS 发送器发送的数据 LP 接收器看到的都是 LP00，
  在调试 DSI 或者 CSI 的时候， HS mode 下的几个时序非常重要：T_LPX，T_HS-SETTLE ≈ T_HS-PREPARE + T_HS-ZERO，T_HS-TRAIL，一般遵循的原则为：Host 端的 T_HS-SETTLE > Slave 端的 T_HS-SETTLE。
 
 
+## C-PHY
 
-## DSI
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/C%20Option.png">
+
+
+## DSI Protocol
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/DSI%20layer.png">
