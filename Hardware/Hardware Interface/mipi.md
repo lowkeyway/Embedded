@@ -64,3 +64,41 @@ HS 发送器发送的数据 LP 接收器看到的都是 LP00，
 ## DSI Protocol
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/DSI%20layer.png">
+
+### 1、线路构成
+
+在 DSI 中需要 1 根时钟线以及 1 ~ 4 根数据线。
+
+### 2、两种接口的 LCD
+
++ Command mode（对应 MPU 接口）
++ Video mode（对应 RGB 接口）
+  + 该模式下视频数据只能通过 HS mode 传输
+  
+### 3、数据包类型
+
++ 短包：4 bytes，由 3 部分组成：
+  + Data Identifier (DI) * 1byte： Contains the Virtual Channel[7:6] and Data Type[5:0].
+  + Packet Data * 2byte：Length is fixed at two bytes
+  + Error Correction Code (ECC) * 1byte：allows single-bit errors to be corrected and 2-bit errors to be detected.
+
++ 长包：6 ~ 65541 bytes，同样由 3 部分组成：
+  + Packet Header(4 bytes) - 包头
+```
+Data Identifier (DI) * 1byte：Contains the Virtual Channel[7:6] and Data Type[5:0].
+Word Count (WC) * 2byte：defines the number of bytes in the Data Payload.
+Error Correction Code (ECC) * 1byte：allows single-bit errors to be corrected and 2-bit errors to be detected.
+```
+
++ Data Payload(0~65535 bytes) - 有效数据
+
+```
+Length = WC × bytes
+```
+
+  + Packet Footer(2 bytes)：Checksum - 包尾
+  
+```
+If the payload has length 0, then the Checksum calculation results in FFFFh
+If the Checksum isn’t calculated, the Checksum value is 0000h
+```
