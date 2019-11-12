@@ -102,3 +102,14 @@ Length = WC × bytes
 If the payload has length 0, then the Checksum calculation results in FFFFh
 If the Checksum isn’t calculated, the Checksum value is 0000h
 ```
+
+
+### 4、从控制器到外设发送的包类型
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI%20DATA%20TYPE.png">
+
+如果希望从外设读取数据或者状态，则在处理器发送完读取命令后还需要发送 BTA 命令，非读取命令在外设接收成功后会返回 trigger message 0x84。
+
+
+### 5、从外设到处理器数据包类型
+
