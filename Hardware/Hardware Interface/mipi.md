@@ -2,7 +2,7 @@
 
 ## D-PHY
 
-<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/D%20Option.png">
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20D%20Option.png">
 
 ### 1、传输模式
 
@@ -33,13 +33,13 @@ HS 发送器发送的数据 LP 接收器看到的都是 LP00，
   + 进入时序：LP11→LP10→LP00→LP01→LP00，
   + 退出时序：LP10→LP11
 
-<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/Escape%20Enter.png">
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Escape%20Enter.png">
 
 + **High-Speed mode**
   + 进入时序：LP11→LP01→LP00→SoT(0001_1101)
   + 退出时序：EoT→LP11
   
-  <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/HS-LP.png">
+  <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20HS-LP.png">
   
 + **Turnaround**
   + 进入时序：LP11→LP10→LP00→LP10→LP00
@@ -58,12 +58,12 @@ HS 发送器发送的数据 LP 接收器看到的都是 LP00，
 
 ## C-PHY
 
-<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/C%20Option.png">
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20C%20Option.png">
 
 
 ## DSI Protocol
 
-<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/DSI%20layer.png">
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20DSI%20layer.png">
 
 ### 1、线路构成
 
@@ -77,10 +77,16 @@ HS 发送器发送的数据 LP 接收器看到的都是 LP00，
   
 ### 3、数据包类型
 
+#### OverView
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20HS%20Transmist%20with%20EoTP.png">
+
 + 短包：4 bytes，由 3 部分组成：
   + Data Identifier (DI) * 1byte： Contains the Virtual Channel[7:6] and Data Type[5:0].
   + Packet Data * 2byte：Length is fixed at two bytes
   + Error Correction Code (ECC) * 1byte：allows single-bit errors to be corrected and 2-bit errors to be detected.
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Short%20Package%20Struct.png">
 
 + 长包：6 ~ 65541 bytes，同样由 3 部分组成：
   + Packet Header(4 bytes) - 包头
@@ -102,7 +108,7 @@ Length = WC × bytes
 If the payload has length 0, then the Checksum calculation results in FFFFh
 If the Checksum isn’t calculated, the Checksum value is 0000h
 ```
-
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Long%20Package%20Struct.png">
 
 ### 4、从控制器到外设发送的包类型
 
@@ -110,6 +116,17 @@ If the Checksum isn’t calculated, the Checksum value is 0000h
 
 如果希望从外设读取数据或者状态，则在处理器发送完读取命令后还需要发送 BTA 命令，非读取命令在外设接收成功后会返回 trigger message 0x84。
 
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20CMD%20Identifier%20Byte.png">
 
 ### 5、从外设到处理器数据包类型
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Package%20Peripheral-to-Processor.bmp">
+
+返回的数据一般分为 4 个类型：
+
++ Tearing Effect (TE)：trigger message (BAh)
++ Acknowledge：trigger message (84h)
++ Acknowledge and Error Report：short packet (Data Type is 02h)
++ Response to Read Request：short packet or long packet
+Generic Read Response、DCS Read Response（1byte, 2byte, multi byte）
 
