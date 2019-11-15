@@ -45,6 +45,8 @@ HS 发送器发送的数据 LP 接收器看到的都是 LP00，
   + 进入时序：LP11→LP10→LP00→LP10→LP00
   + 退出时序：LP00→LP10→LP11
 
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Turn%20Around.png">
+
 + **ULPS和低速传输**
 当进入 Escape mode 需要发送 8-bit entry command 表明请求的动作，比如要进行低速数据传输则需要发送 **cmd： 0x87**，进入超低功耗模式则发送 **cmd： 0x78**。在 DSI 中 LP 通讯只用 Data Lane 0。
 
@@ -55,6 +57,19 @@ HS 发送器发送的数据 LP 接收器看到的都是 LP00，
  
  在调试 DSI 或者 CSI 的时候， HS mode 下的几个时序非常重要：T_LPX，T_HS-SETTLE ≈ T_HS-PREPARE + T_HS-ZERO，T_HS-TRAIL，一般遵循的原则为：Host 端的 T_HS-SETTLE > Slave 端的 T_HS-SETTLE。
 
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Transfer%20Timming.png">
+
+可以参考如下典型值：
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Transfer%20Timming%20Data.png">
+
+### 6、电平要求
+
+有的时候，为了在更高速度下增强抗干扰能力、降低功耗，会人为得降低P和N之间的电平差，但是Mipi同时也规范了这种操作：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Voltage%20Levels.png">
+
+可以参考如下典型值：
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Voltage%20Levels%20Data.png">
 
 ## C-PHY
 
