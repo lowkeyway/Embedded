@@ -37,4 +37,4 @@ Some embedded knowledge, especially for interview.
 + **Touch**
 + **Camera**
 + **Flash**
-+ **Tools*
++ **Tools**
