@@ -6,10 +6,18 @@
 
 ### 1、传输模式
 
-+ LP（Low-Power）模式：用于传输控制信号，最高速率 10 MHz
-+ HS（High-Speed）模式：用于高速传输数据，速率范围 [80 Mbps， 1Gbps] per Lane
++ LP（Low-Power）模式：用于传输控制信号，最高速率 10 MHz。
+  + LP传输不需要CLK做基准，Host和Slave内部会同步采样，而且只通过Data0传输。
++ HS（High-Speed）模式：用于高速传输数据，速率范围 [80 Mbps， 1Gbps] per Lane。
+  + HS传输需要用CLK作双边缘采样，而且在多Lane模式下数据会拆开给每一条Lane。
+    + 数据拆分
+    <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20%E5%A4%9A%E6%80%BB%E7%BA%BF%E6%95%B0%E6%8D%AE%E5%88%86%E9%85%8D.png">
 
+    + 数据集合
+    <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20%E5%A4%9A%E6%80%BB%E7%BA%BF%E6%95%B0%E6%8D%AE%E9%9B%86%E5%90%88.png">
+    
 传输的最小单元为 1 个字节，采用小端的方式及 LSB first，MSB last。
+
 
 ### 2、Lane States
 
@@ -145,3 +153,19 @@ If the Checksum isn’t calculated, the Checksum value is 0000h
 + Response to Read Request：short packet or long packet
 Generic Read Response、DCS Read Response（1byte, 2byte, multi byte）
 
+### 6、Vedio Mode
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Video%20Mode.png">
+
+在Vedio Mode传输里，也分三种模式：
++ **Non-Burst Mode with Sync Pulses** – enables the peripheral to accurately reconstruct original video 2025 timing, including sync pulse widths. 
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Video%20Mode.png">
+
++ **Non-Burst Mode with Sync Events** – similar to above, but accurate reconstruction of sync pulse 2027 widths is not required, so a single Sync Event is substituted. 
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Video%20Mode-Non-Burst%20with%20Sync%20Events.png">
+
++ **Burst mode** – RGB pixel packets are time-compressed, leaving more time during a scan line for 2029 LP mode (saving power) or for multiplexing other Transmissions onto the DSI Link.
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Video%20Mode-Burst.png">
