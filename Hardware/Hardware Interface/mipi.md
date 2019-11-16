@@ -160,7 +160,7 @@ Generic Read Response、DCS Read Response（1byte, 2byte, multi byte）
 在Vedio Mode传输里，也分三种模式：
 + **Non-Burst Mode with Sync Pulses** – enables the peripheral to accurately reconstruct original video 2025 timing, including sync pulse widths. 
 
-<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Video%20Mode.png">
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20Video%20Mode-Non-Burst%20with%20Sync%20Start%20and%20End.png">
 
 + **Non-Burst Mode with Sync Events** – similar to above, but accurate reconstruction of sync pulse 2027 widths is not required, so a single Sync Event is substituted. 
 
