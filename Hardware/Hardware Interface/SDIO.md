@@ -23,6 +23,8 @@ SDIO协议是由SD卡的协议演化升级而来的，很多地方保留了SD卡
 
 ### MMC
 
+MMC（Multimedia Card），中文翻译为多媒体卡，设计之初就是用来做多媒体文件存储的，所以它只具备存储功能。
+
 熟悉Linux kernel的人都知道，kernel使用MMC subsystem统一管理MMC、SD、SDIO等设备，为什么呢？
 从1997年MMC规范发布至今，基于不同的考量（物理尺寸、电压范围、管脚数量、最大容量、数据位宽、clock频率、安全特性、是否支持SPI mode、是否支持DDR mode、等等），进化出了MMC、SD、microSD、SDIO、eMMC等不同的规范（如下面图片1所示）。虽然乱花迷人，其本质终究还是一样的，丝毫未变，这就是Linux kernel将它们统称为MMC的原因。
 
@@ -30,13 +32,13 @@ SDIO协议是由SD卡的协议演化升级而来的，很多地方保留了SD卡
 
 从上图可以看出MMC是SD/SDIO/eMMC等一系列的祖师爷，1997年由西门子和闪迪共同开发，技术基于东芝的Nand-Flash。
 
-+ 实物展示
+#### 实物展示
 
 MMC作为一种硬件存储设备所以MMC的接口最为简单，只有7个Pin。大小跟一张油票差不多，约24mm x 32mm x 1.5mm。
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20MMC%20%E5%AE%9E%E7%89%A9.jfif">
 
-+ 接口展示
+#### 接口展示
 
 因为只有7个Pin，所以只能支持SPI和1 Bit模式（现在有发展出新的MMC接口和协议，已经可以支持4bit/8bit）
 
@@ -49,6 +51,88 @@ MMC 的 SPI mode 时钟最高只能到25MHz，因此读取速度通常低于3MB/
 + 3、SD的CMD线与DATA线之间有可能同时产生数据，对没有SD硬件模块的主机支持起来难度较高。
 
 了解了MMC的最初设计初衷以及硬件接口，为了保证兼容性，后面的演进SD/SDIO等都支持SPI模式就会更容易理解一些。
+
+
+### SD Card
+
+1999年，由日本松下、东芝及美国SanDisk公司共同研制完成。2000年，这几家公司发起成立了SD协会（Secure Digital Association简称SDA）
+SD卡（Security Digtial card）中文翻译成安全数码卡。它是从MMC的基础上发展来的，做了什么修改呢？从字面上看，我们就知道它一定增加了安全加密功能：
++ SD卡比MMC多了2个管脚，所以可以支持到4Bit总线模式。
++ SD卡使用卡内智能控制模块进行FLASH操作控制，包括协议、安全算法、数据存取、ECC算法、缺陷处理和分析、电源管理、时钟管理。
++ 大部分SD卡的侧面设有写保护控制，以避免一些数据意外地写入，而少部分的SD卡甚至支持数字版权管理的技术。
++ SD卡是基于flash的存储卡。
++ SD卡和MMC卡的区别在于初始化过程不同。
++ SD卡的通信协议包括SD总线和SPI两类。
++ 通信电压范围：2.0-3.6V；工作电压范围:2.0-3.6V
++ 最大读写速率：10Mbyte/s
++ 最大10 个堆叠的卡（20MHz,Vcc=2.7-3.6V)
+
+SD卡的设计也是为了存储功能，最直观的感受就是PIN脚会比MMC多了2个（可以支持到了SD 4Bit模式），同时SD也是从外观到协议不断演进的，比如为了适应移动数码产品的需要，演进除了Mini DS（迷你SD）和microSD（TF-TransFlash 卡）。
+
+
+#### 实物展示
+
+如下图，是SD卡、Mini SD、Micro SD的实物对比：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%E5%8D%A1%E5%AE%9E%E7%89%A9.png">
+
+#### 接口展示
+
+除了大小上的不同，在管脚上，SD/MINI/Micro也不相同：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%E5%8D%A1%E7%AE%A1%E8%84%9A%E6%8E%A5%E5%8F%A3.gif">
+
++ miniSD相对于标准SD，增加了2个NC引脚
++ microSD相对于标准SD，减少了1个VSS引脚
+
+
+但是需要指出的是，在UHS-II以及UHS-III中，管脚接口又增加了8个，这样速度可以成倍增加。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%20UHS-II%20%E6%8E%A5%E5%8F%A3.png">
+
+#### 管脚定义
+
+因为Mini SD和Micro SD本质上都是SD，所以从数据传输协议上看，都是一样的，只是对地的修改。（这也可以理解为什么Mini SD或Micro SD加个套套就可以当做SD来用）
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%E5%8D%A1%20Pin%E8%84%9A%E5%AE%9A%E4%B9%89.jpg">
+
+
+
+#### 容量规范
+
+SDHC（SD high capacity）中文翻译为SD大容量卡, SDXC(SD eXtended Capacity，中文名：容量扩大化的安全存储卡)。
+
+目前市场上的SD、Mini SD、Micro SD卡遵循的是SD Spec Ver1.0或1.1规范，最大可能容量仅为**2GB**。2006年，SDA协会发布了SD Spec Ver2.0规范，符合此新规范的SD卡容量可达4GB或更高。
+符合2.0规范的SD卡，称为SDHC（SD high capacity）卡。SDHC卡外形维持与SD卡一致，但是文件系统从FAT12、FAT16改为FAT32型；SDHC卡的最大容量可达32GB。除了SDHC卡外,还有Mini SDHC，Micro SDHC类型的卡。
+
+SDHC卡与标准SD卡不再兼容，必须符合SD Spec Ver2.0的设备才能支持SDHC卡，这样的设备都会带有SDHC logo。而支持SDHC卡的设备可以向下兼容标准SD卡。
+为了充分发挥SDHC卡的性能，保证兼容性，SDA协会为SDHC卡定义了3个速度等级：2，4，6；其含义是各等级分别可以忍受的写速率至少是2MB/S，4MB/S，6MB/S.速度等级定义中使用的是数据写速率，数据读速率要比数据写速率快。
+
+有三种容量等级：
++ SD最大容量为2GB， 支持FAT 12, 16。
++ HC内存卡最大容量为32GB，支持FAT 32。
++ XC内存卡最大容量为2TB，支持exFAT。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%E6%A0%87%E8%AF%86%E5%8F%8A%E5%85%B6%E9%80%9F%E5%BA%A6%E5%AF%B9%E6%AF%94.png">
+
+
+#### 速度规范
+
+速度上，可以通过Class和UHS(Ultra High-Speed)两个量级来衡量。
+
+SD2.0的规范：
+普通卡和高速卡的速率定义为Class2、Class4、Class6 和Class10 四个等级。在Class10卡问世之前，存在过一阵Class11和Class13的卡,但这种标准最终没有被SDA共识。
+
+SD3.01规范：
+又被称为超高速卡，速率定义为UHS-I（理论上可以支持最大 104MB/s 的总线速度）和UHS-II（理论总线速度骤然提高到了 312MB/s）。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%20Class%20%E6%A0%87%E8%AF%86%E5%8F%8A%E5%85%B6%E9%80%9F%E5%BA%A6%E5%AF%B9%E6%AF%94.png">
+
+可以参考如下演进图：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%20UHS.jpg">
+
+
 
 总结一下他们之间的关系：
 + MMC、SD、SDIO的技术本质是一样的（使用相同的总线规范，等等），都是从MMC规范演化而来；
