@@ -21,7 +21,7 @@ SDIO协议是由SD卡的协议演化升级而来的，很多地方保留了SD卡
 本篇内容主要是想了解SDIO设备，但是如果翻开SDIO的官方Spec，面对缭乱的功能，很容易混淆不知所以然。即便是更复杂的Mipi协议感觉也没有如此混乱。
 其实要了解SDIO的架构，还是要从历史发展的角度理一理，说不准能有一个新方向。SDIO接口并不是从无到有的顶层设计，而是自然演进过来的，从MMC->SD->SDIO，我们先来看看他们的演进历程。
 
-### MMC
+### 1 MMC
 
 MMC（Multimedia Card），中文翻译为多媒体卡，设计之初就是用来做多媒体文件存储的，所以它只具备存储功能。
 
@@ -32,13 +32,13 @@ MMC（Multimedia Card），中文翻译为多媒体卡，设计之初就是用�
 
 从上图可以看出MMC是SD/SDIO/eMMC等一系列的祖师爷，1997年由西门子和闪迪共同开发，技术基于东芝的Nand-Flash。
 
-#### 实物展示
+#### 1.1 实物展示
 
 MMC作为一种硬件存储设备所以MMC的接口最为简单，只有7个Pin。大小跟一张油票差不多，约24mm x 32mm x 1.5mm。
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20MMC%20%E5%AE%9E%E7%89%A9.jfif">
 
-#### 接口展示
+#### 1.2 接口展示
 
 因为只有7个Pin，所以只能支持SPI和1 Bit模式（现在有发展出新的MMC接口和协议，已经可以支持4bit/8bit）
 
@@ -53,7 +53,7 @@ MMC 的 SPI mode 时钟最高只能到25MHz，因此读取速度通常低于3MB/
 了解了MMC的最初设计初衷以及硬件接口，为了保证兼容性，后面的演进SD/SDIO等都支持SPI模式就会更容易理解一些。
 
 
-### SD Card
+### 2 SD Card
 
 1999年，由日本松下、东芝及美国SanDisk公司共同研制完成。2000年，这几家公司发起成立了SD协会（Secure Digital Association简称SDA）
 SD卡（Security Digtial card）中文翻译成安全数码卡。它是从MMC的基础上发展来的，做了什么修改呢？从字面上看，我们就知道它一定增加了安全加密功能：
@@ -64,19 +64,18 @@ SD卡（Security Digtial card）中文翻译成安全数码卡。它是从MMC的
 + SD卡和MMC卡的区别在于初始化过程不同。
 + SD卡的通信协议包括SD总线和SPI两类。
 + 通信电压范围：2.0-3.6V；工作电压范围:2.0-3.6V
-+ 最大读写速率：10Mbyte/s
 + 最大10 个堆叠的卡（20MHz,Vcc=2.7-3.6V)
 
 SD卡的设计也是为了存储功能，最直观的感受就是PIN脚会比MMC多了2个（可以支持到了SD 4Bit模式），同时SD也是从外观到协议不断演进的，比如为了适应移动数码产品的需要，演进除了Mini DS（迷你SD）和microSD（TF-TransFlash 卡）。
 
 
-#### 实物展示
+#### 2.1 实物展示
 
 如下图，是SD卡、Mini SD、Micro SD的实物对比：
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%E5%8D%A1%E5%AE%9E%E7%89%A9.png">
 
-#### 接口展示
+#### 2.2 接口展示
 
 除了大小上的不同，在管脚上，SD/MINI/Micro也不相同：
 
@@ -90,7 +89,7 @@ SD卡的设计也是为了存储功能，最直观的感受就是PIN脚会比MMC
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%20UHS-II%20%E6%8E%A5%E5%8F%A3.png">
 
-#### 管脚定义
+#### 2.3 管脚定义
 
 因为Mini SD和Micro SD本质上都是SD，所以从数据传输协议上看，都是一样的，只是对地的修改。（这也可以理解为什么Mini SD或Micro SD加个套套就可以当做SD来用）
 
@@ -98,7 +97,7 @@ SD卡的设计也是为了存储功能，最直观的感受就是PIN脚会比MMC
 
 
 
-#### 容量规范
+#### 2.4 容量规范
 
 SDHC（SD high capacity）中文翻译为SD大容量卡, SDXC(SD eXtended Capacity，中文名：容量扩大化的安全存储卡)。
 
@@ -116,7 +115,7 @@ SDHC卡与标准SD卡不再兼容，必须符合SD Spec Ver2.0的设备才能支
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%E6%A0%87%E8%AF%86%E5%8F%8A%E5%85%B6%E9%80%9F%E5%BA%A6%E5%AF%B9%E6%AF%94.png">
 
 
-#### 速度规范
+#### 2.5 速度规范
 
 速度上，可以通过Class和UHS(Ultra High-Speed)两个量级来衡量。
 
