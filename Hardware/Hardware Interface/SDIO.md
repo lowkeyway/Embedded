@@ -42,7 +42,7 @@ MMC作为一种硬件存储设备所以MMC的接口最为简单，只有7个Pin�
 
 因为只有7个Pin，所以只能支持SPI和1 Bit模式（现在有发展出新的MMC接口和协议，已经可以支持4bit/8bit）
 
-<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20MMC%20%E7%AE%A1%E8%84%9A%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg">
+<img src="https://github.com/lowkeyway/Embeddd/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20MMC%20%E7%AE%A1%E8%84%9A%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg">
 
 
 MMC 的 SPI mode 时钟最高只能到25MHz，因此读取速度通常低于3MB/s。之所以在MMC支持SPI模式，是因为：
@@ -144,7 +144,7 @@ SDIO是在SD内存卡接口的基础上发展起来的外设接口，SDIO接口�
 
 我们可以简单的理解成公式：SDIO = SD + IO，即这种总线既要支持SD存储，满足之前SD的所有协议，也要支持IO功能，作为数据吞吐的总线接口。
 
-### 3.1 硬件展示
+#### 3.1 硬件展示
 
 SDIO从SD中进化而来，却又抽象了SD，因为它终于脱离了存储这个约束，开始走向总线协议上来了，这也是我们本篇文章来研究它的初衷。
 因此，从硬件上就没有我们看到的MMC/SD这么直观的实物了，但是作为一个Host+Slave模式的总线接口，我们可以通过承载这种硬件接口的Host和Slave侧的硬件原理图窥探一下。
@@ -163,7 +163,7 @@ SDIO从SD中进化而来，却又抽象了SD，因为它终于脱离了存储这
 
 可以看出在Host和Slave之间是采用直连模式（如果不放心，可以下挂TVS器件以改善ESD性能）
 
-#### 3.1 接口介绍
+##### 3.2 接口介绍
 
 有了如上的硬件展示，接口部分就没什么可说的了。截取SDIO官方的一个示意图：
 
@@ -176,7 +176,8 @@ SDIO从SD中进化而来，却又抽象了SD，因为它终于脱离了存储这
 
 对于SDIO总线下挂的设备可以通称为SD卡设备。
 
-==========================================================================
+
+### 4.总结
 
 总结一下他们之间的关系：
 
@@ -184,3 +185,48 @@ SDIO从SD中进化而来，却又抽象了SD，因为它终于脱离了存储这
   + MMC强调的是多媒体存储（MM，MultiMedia）；
   + SD强调的是安全和数据保护（S，Secure）；
   + SDIO是从SD演化出来的，强调的是接口（IO，Input/Output），不再关注另一端的具体形态（可以是WIFI设备、Bluetooth设备、GPS等等）。
+  
+  
+  
+## 协议
+
+因为SDIO是从SD协议中进化出来的，所以SDIO(IO Only）的协议必须要兼容SD卡的协议。通过上面的一些历史铺垫，相信对SDIO有了初步的认识，背着历史包袱的SDIO也注定会比较繁杂，而这繁杂从哪里开始讲起呢？
+当然是枚举！因为Host在上电的瞬间就要知道它面对的Slave是什么设备，才能化繁为简，
+
+### 1. 初始化（枚举）
+
+借鉴USB的枚举概念，我们更容易理解。初始化的过程就是为了辨别Slave是MMC还是SD，是SDSC还是SDHC/SDXC，或者是我们今天的主角SDIO IO Only Card？
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20IO%20Only%20%E6%9E%9A%E4%B8%BE.png">
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20IO%20Only%20%E6%9E%9A%E4%B8%BE%20%E5%90%8D%E8%AF%8D%E8%A7%A3%E6%9E%90.png">
+
+如上图是摘自最新的SDIO简明手册的初始化部分。依然复杂，但对于我们来说，为了便于理解，我们可以直接默认为Slave是SDIO IO Only设备，看它在这个流程中都经过哪些Case，然后再通过这些Case抽丝剥茧去介绍每个命令是什么含义！
+
++ (1) Power On               （我们以上电初始化为例）
++ (2) IO=0, MEM=0, F2=0      （参考上图的IO/MEM/F2的含义，这里是初始化的时候把一些Flag清零，以便后面流程中判断）
++ (3) CMD0 Pin1=High         （Pin1 对应的是Data3，即在Data3 Pin拉高的情况下由Host发送CMD0命令，强制Slave进入Idle状态）
++ (4) CMD8                   （发送CMD8命令，做电压检测，初始化电压3.3V）
++ (5) Check Responses        （其实就是检查CMD8的返回R7命令是否正常）
++ (6) F8=1                   （假想实验中，R7当然正常，表明Host提供的电源下Slave可以正常工作）
++ (7) Initialize SDIO        （测试IO Flag是否需要初始化，很明显，IO Flag在我们上电的时候被清零了）
++ (8) CMD5 Arg=0             （发送CMD5命令，OCR参数为0，询问Slave的电压支持范围）
++ (9) Check Response         （Slave对CMD5的命令返回正常，R4命令格式正确，OCR中包含了支持的电压返回）
++ (10) CMD5 Arg=S18R, WV      （收到Slave返回的支持电压范围假设为1.8V，再次发送CMD5命令请求切换1.8V的）
++ (11) Check Response         （再次检查R4，看是否正常返回，如果正常返回看R4的C位）
++ (12) IO=1                   （R4的C位为1，表示初始化Ok，可以进行下一步操作了。设置IO Flag为1）
++ (13) Test MP Flag           （因为我们是IO Only，所以R4的Memory Present位为0）
++ (14) Check IO               （跳过了Memory Initialization， 检查IO Flag，我们在12步的时候已经设置为1了）
++ (15) Check S18A(OR)         （R4的S18A位，假设我们的Slave可以支持1.8V，所以这一位应该为1）
++ (16) CMD11                  （Host发送CMD11，切换电平为1.8V）
++ (17) Check Response         （检查CMD11的返回R1是否正确，当然正确）
++ (18) Voltage Switch Sequence  （电平切换中）
++ (19) Check Error            （检查有没有Error，当然没有）
++ (20) Check MEM, F2          （MEM和F2 我们在初始化为0后就再也没动过）
++ (21) CMD3                   （Host发送CMD3， 请求Slave提供relative address）
++ (22) Check IO, MEM          （IO我们设置过为1， MEM没有变为0）
++ (23) IO Only Card           （SDIO IO Only设备）
+
+至此，枚举成功，并且结束。
+
+
