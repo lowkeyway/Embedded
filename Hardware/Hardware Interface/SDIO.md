@@ -132,8 +132,54 @@ SD3.01规范：
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%20UHS.jpg">
 
 
+### 3 SDIO
+
+SDIO是在SD内存卡接口的基础上发展起来的外设接口，SDIO接口兼容以前的SD内存卡，并且可以连接SDIO接口的设备，目前根据SDIO协议的SPEC，SDIO接口支持的设备总类有：
++ Wi-Fi card（无线网络卡） 
++ CMOS sensor card（照相模块） 
++ GPS card 
++ GSM/GPRS modem card 
++ Bluetooth card 
++ Radio/TV card
+
+我们可以简单的理解成公式：SDIO = SD + IO，即这种总线既要支持SD存储，满足之前SD的所有协议，也要支持IO功能，作为数据吞吐的总线接口。
+
+### 3.1 硬件展示
+
+SDIO从SD中进化而来，却又抽象了SD，因为它终于脱离了存储这个约束，开始走向总线协议上来了，这也是我们本篇文章来研究它的初衷。
+因此，从硬件上就没有我们看到的MMC/SD这么直观的实物了，但是作为一个Host+Slave模式的总线接口，我们可以通过承载这种硬件接口的Host和Slave侧的硬件原理图窥探一下。
+
++ Host:
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20MSDC%20AP%20Side.png">
+
+这个图采自MTK6595的MSCS(Memory Stick And SD card Controller)，即AP侧的SDIO的接口，可以看到SDIO的CMD/CLK/DATA0~Data3的四总线模式以及CMD/CLK/DATA0~DATA7的八总线模式（这种模式一般都连在eMMC上，eMMC是embedded MMC）。我们重点关注4总线模式即可。
+
++ Slave：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%2BWIFI%20%E6%8E%A5%E5%8F%A3.png">
+
+这个图展现的是SDIO接口的WIFI模块。
+
+可以看出在Host和Slave之间是采用直连模式（如果不放心，可以下挂TVS器件以改善ESD性能）
+
+#### 3.1 接口介绍
+
+有了如上的硬件展示，接口部分就没什么可说的了。截取SDIO官方的一个示意图：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20%E8%BF%9E%E6%8E%A5%E4%B8%A4%E4%B8%AA4-bit%20Cards.png">
+
+
++ CLK信号:HOST给DEVICE的时钟信号。
++ CMD信号：双向的信号，用于传送命令和反应。
++ DAT0-DAT3 信号:四条用于传送的数据线。
+
+对于SDIO总线下挂的设备可以通称为SD卡设备。
+
+==========================================================================
 
 总结一下他们之间的关系：
+
 + MMC、SD、SDIO的技术本质是一样的（使用相同的总线规范，等等），都是从MMC规范演化而来；
   + MMC强调的是多媒体存储（MM，MultiMedia）；
   + SD强调的是安全和数据保护（S，Secure）；
