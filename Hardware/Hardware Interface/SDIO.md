@@ -154,7 +154,7 @@ SDIO从SD中进化而来，却又抽象了SD，因为它终于脱离了存储这
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20MSDC%20AP%20Side.png">
 
-这个图采自MTK6595的MSCS(Memory Stick And SD card Controller)，即AP侧的SDIO的接口，可以看到SDIO的CMD/CLK/DATA0~Data3的四总线模式以及CMD/CLK/DATA0~DATA7的八总线模式（这种模式一般都连在eMMC上，eMMC是embedded MMC）。我们重点关注4总线模式即可。
+这个图采自MTK6595的MSCS(Memory Stick And SD card Controller)，即AP侧的SDIO的接口，可以看到SDIO的CMD/CLK/DATA0-Data3的四总线模式以及CMD/CLK/DATA0-DATA7的八总线模式（这种模式一般都连在eMMC上，eMMC是embedded MMC）。我们重点关注4总线模式即可。
 
 + Slave：
 
@@ -288,11 +288,18 @@ CMD52是由HOST发往DEVICE的，它必须有DEVICE返回来的Response。 **CMD
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20CMD52.png">
 
+这张图中有几个需要注意的地方：
++ Function Number： 每个SDIO设备都可以有自己的7个Function，分别是F1-F7，其中F0对应的是**CIA(Common I/O area)**, 3Bit刚好可以对应8个Function。
++ Register Address: 选定好一个Function后，就可以通过Register Address定位操作的地址。每个Function有128K个字节，所以Register Address需要17个Bit。
++ Write Data or Stuff Bits: 写命令的时候，就把数据放在这里，1个Byte；读的时候，清零即可。
 
 以及CMD52的Response R5
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20R5.png">
 
+这张图中需要注意的两个地方：
++ Response Flags Bits: Slave以及BUS 状态，详细可以参考上图中的5-1表。
++ Read or Write Data: 如果CMD52是读命令，那么该为装载的是在特定寄存器地址中读出来的值；如果是写命令，则要参考CMD52中的RAW Flag，是否要回读。
 
 #### 3.2 多Byte数据(CMD53)
 
@@ -300,4 +307,21 @@ CMD52是由HOST发往DEVICE的，它必须有DEVICE返回来的Response。 **CMD
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20CMD53.png">
 
+这张图中需要注意的地方就多了些：
++ Block Mode: 用来设置传输是否用Block Mode的
+  + 当设置为0时： 传输的的单位为Byte，大小为Byte/Block Count的寄存器中获取, 支持的最大数可以从CIS中的TPLFE_MAX_BLK_SIZE中获取；
+  + 当设置为1时： 传输的单位为Block，Block的个数在Byte/Block Count的寄存器中获取,每个Block的大小还要根据不同Function来区分：
+    + 如果是Function 0，则在CCCR中的FN0 Block Size中获取
+    + 如果是Function 1-7，则则从FBR的I/O block size中获取。
+  + 因为Block Mode并不是必须要支持的Option，所以Host可以通过CCCR中的Card Supports MBIO bit(SMB)
+  
++ OP Code： 用来设置是否从固定地址做读取操作
+  + 当设置为0： 普通模式，根据Function Number + Register Address进行读写。
+  + 当设置为1： 递增模式。意思是做完操作后地址直接加1，连续进行读写操作。
+  
+  
+至此，数据传输的部分也了解完了！其实就是CMD52和CMD53两个命令。
 
+
+  
+  
