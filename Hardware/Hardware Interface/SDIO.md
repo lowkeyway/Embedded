@@ -230,3 +230,38 @@ SDIO从SD中进化而来，却又抽象了SD，因为它终于脱离了存储这
 至此，枚举成功，并且结束。
 
 
+### 2. 命令
+
+要想搞清楚枚举过程，就要对SDIO的命令有所认识。
+我们知道，标准的SDIO有6跟线，其中一条CLK, 一条CMD， 四条数据总线DAT0~DTA7。在执行命令的时候，只有CLK和CMD参与工作，不管是Host主动发的CMD还是Slave返回的Response。
+
+#### 2.1 命令的形式
+
+前面也提到了，SDIO总线属于主从结构，所有的命令都要由Host发起。对于所有的SDIO命令来说，可以分为有返回和无返回两种情况。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20No%20response%20and%20No%20data.png">
+
+#### 2.2 枚举常用命令简析
+
+好了，了解了这一点，我们可以通过几个例子来窥探一下SDIO CMD的轮廓。SDIO的命令浩如烟海，有上百之多，我们先关心一下刚才提到的枚举流程中遇到的。相信枚举得过程弄懂了，其他的流程都不在话下。
+枚举中遇到的命令依次是CMD0->CMD8->CMD5->CMD11->CMD3，可以通过下表看看都是什么意思。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20command%200-8-11-3.png">
+
+可以看出只有CMD0没有Response，其他CMD都有对应的而且是一对一的回应。可以通过command description了解该命令的基本作用。
+当然，看这个表格只能雾里看花，如果一个命令只有一个功能还好，如果可以带参数，就不能理解枚举过程中的Check Response等一系列骚操作了。比如CMD5。
+
+#### 2.3 CMD5详解
+所以，我把CMD5单独拎出来，一方面是因为CMD5确实在枚举中起的作用最大，另一方面是因为CMD5是对传统SD协议的补充，用来替代ACMD41的。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20CMD5.png">
+在这个框图中，就可以对何为S18R、何为OCR。
+
+#### 2.4 R4详解
+当然，我们也举CMD5的返回R4，来详细看一看内部结构：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20R4.png">
+在这个图中，我们就可以对照枚举流程关注C位、Memory Present位、S18A位、OCR位。
+
+
+
