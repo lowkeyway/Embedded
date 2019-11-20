@@ -42,7 +42,7 @@ MMC作为一种硬件存储设备所以MMC的接口最为简单，只有7个Pin�
 
 因为只有7个Pin，所以只能支持SPI和1 Bit模式（现在有发展出新的MMC接口和协议，已经可以支持4bit/8bit）
 
-<img src="https://github.com/lowkeyway/Embeddd/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20MMC%20%E7%AE%A1%E8%84%9A%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg">
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20MMC%20%E7%AE%A1%E8%84%9A%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg">
 
 
 MMC 的 SPI mode 时钟最高只能到25MHz，因此读取速度通常低于3MB/s。之所以在MMC支持SPI模式，是因为：
