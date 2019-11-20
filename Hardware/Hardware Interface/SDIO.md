@@ -280,6 +280,8 @@ SDIO从SD中进化而来，却又抽象了SD，因为它终于脱离了存储这
 枚举完成之后，我们就对SDIO的相关CMD和Response格式有了初步的了解。当然，我们使用SDIO不是为了纯粹的发送指令，否则DAT0~DAT3太浪费了。
 对于MMC或者SD这种存储设备来说，不是我们讨论的重点，我们既然枚举成了SDIO IO Only设备，那么就来看一看SDIO 设备是怎么传输数据的。
 
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20Data%20Packet%20format.png">
+
 SDIO设备为了和SD内存卡兼容，SD卡所有Command和Response完全兼容，同时加入了一些新的Command和Response。例如，初始化SD内存卡使用ACMD41，而SDIO卡设备则用CMD5通知DEVICE进行初始化。但二者最重要的区别是，SDIO卡比SD内存卡多了CMD52和CMD53命令，这两个命令可以方便的访问某个功能的某个地址寄存器。
 
 #### 3.1 单Byte数据(CMD52 / R5)
@@ -316,12 +318,64 @@ CMD52是由HOST发往DEVICE的，它必须有DEVICE返回来的Response。 **CMD
   + 因为Block Mode并不是必须要支持的Option，所以Host可以通过CCCR中的Card Supports MBIO bit(SMB)
   
 + OP Code： 用来设置是否从固定地址做读取操作
-  + 当设置为0： 普通模式，根据Function Number + Register Address进行读写。
-  + 当设置为1： 递增模式。意思是做完操作后地址直接加1，连续进行读写操作。
+  + 当设置为0： 普通模式，根据Function Number + Register Address进行读写。对地址0固定读写16个字节，相当于16次读写的地址0.
+  + 当设置为1： 递增模式。意思是做完操作后地址直接加1，连续进行读写操作。对地址0增量读写16个字节，相当于读写0~15地址的数据。
   
   
 至此，数据传输的部分也了解完了！其实就是CMD52和CMD53两个命令。
 
 
   
-  
+## 常见寄存器
+
+为什么总感觉少点什么？因为我们在了解CMD53的时候，引入了好几个名词，CIS/CCCC/FBR这些都是什么东西？
+
+如果有过USB驱动的经验可能会容易理解一些，但是没有也没关系。简单的说，SDIO的所有操作其实都是针对的Slave的寄存器的操作，什么寄存器呢？
+
+这一切，我们可以结合CMD53，先从CIA说起:
+
+### 1. CIA(Common I/O Area)
+
+CIA 可以被翻译成通用I/O 区域，它是所有SDIO设备都需要包含的，还记得我们在CMD52/53命令的时候提过的Register Address吗？CIA就是Function 0，它的大小就是128K。
+同样的，如果一个SDIO Slave卡设备支持好多Function（最多是Function1-7），那么它也应该有对应的大小区域给每个Function，如下图：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20CIA.png">
+
+
+在0x0000 0000 - 0x0001 FFFF这128K的CIA中，包括了三个单独的寄存器，他们是：
++ CCCR(Card Common Control Register)
++ FBR(Function Basic Register)
++ CIS(Card Information Structure)
+
+
+#### 1.1 CIS(Card Information Structure)
+
+先说CIS， 原因是CIS里面存储了卡设备的一些通用信息，在初始化完成之后，Host会从这里面获取一些信息，以便知道对面的卡设备的支持功能。
+
++ 地址寻址范围0x001000~0x017FFF（其中0x0001 8000 - 0x0001 7fff是RFU保留区域）
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20CIS.png">
+
+当然在32767这么大的区域存储的也是由对应的寄存器寻址的。比如我们在CMD53中提到的“支持的最大数可以从CIS中的TPLFE_MAX_BLK_SIZE中获取；”
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20TPLFE_MAX_BLK_SIZE.png">
+
+#### 1.2 CCCR(Card Common Control Register)
+
+话不多述，可以看一下官方的CCCR介绍。我们在介绍CMD53的时候提过“Host可以通过CCCR中的Card Supports MBIO bit(SMB)”判断SDIO Slave是否支持Block Mode
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20CCCR%20SMB.png">
+
+
+
+#### 1.3 FBR(Function Basic Register)
+
+我们在CMD53中提过，“如果是Function 1-7，则则从FBR的I/O block size中获取。”
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20FBR%20IO%20block%20size.png">
+
+
+
+## 总结
+
+到这里，SDIO的基本概念就入门了，至少可以通过操作CMD和Data了。至于在SDIO总线的Suspend/Resume，Idle/Busy这种状态。还是要在实际工作用遇到问题，去查阅SPEC。这样才能理解得更透彻。
