@@ -95,7 +95,8 @@ SD卡的设计也是为了存储功能，最直观的感受就是PIN脚会比MMC
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SD%E5%8D%A1%20Pin%E8%84%9A%E5%AE%9A%E4%B9%89.jpg">
 
-
+那么对应的UHS-II之后增加的八个管脚可以对应下图：
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20UHS-II%20Interface%20Pin%20define.png">
 
 #### 2.4 容量规范
 
@@ -169,6 +170,8 @@ SDIO从SD中进化而来，却又抽象了SD，因为它终于脱离了存储这
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20%E8%BF%9E%E6%8E%A5%E4%B8%A4%E4%B8%AA4-bit%20Cards.png">
 
+以及参考SD协议中对PIN定义的Pin Number（重点关注Pin1，在SD模式下即可以做Data3，也可以做Card Detect）：
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20Pin%20%E5%AE%9A%E4%B9%89.png">
 
 + CLK信号:HOST给DEVICE的时钟信号。
 + CMD信号：双向的信号，用于传送命令和反应。
@@ -230,16 +233,24 @@ SDIO从SD中进化而来，却又抽象了SD，因为它终于脱离了存储这
 至此，枚举成功，并且结束。
 
 
-### 2. 命令
+### 2. 命令和响应
 
 要想搞清楚枚举过程，就要对SDIO的命令有所认识。
 我们知道，标准的SDIO有6跟线，其中一条CLK, 一条CMD， 四条数据总线DAT0~DTA7。在执行命令的时候，只有CLK和CMD参与工作，不管是Host主动发的CMD还是Slave返回的Response。
 
-#### 2.1 命令的形式
+#### 2.1 命令和响应的形式
 
 前面也提到了，SDIO总线属于主从结构，所有的命令都要由Host发起。对于所有的SDIO命令来说，可以分为有返回和无返回两种情况。
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20No%20response%20and%20No%20data.png">
+
+那么从协议角度，对所有的命令有通用的格式规定：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20Command%20Token%20Format.png">
+
+同时，对有返回的返回格式也有规定：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20Response%20Token%20Format.png">
 
 #### 2.2 枚举常用命令简析
 
@@ -263,5 +274,30 @@ SDIO从SD中进化而来，却又抽象了SD，因为它终于脱离了存储这
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20R4.png">
 在这个图中，我们就可以对照枚举流程关注C位、Memory Present位、S18A位、OCR位。
 
+
+### 3. 数据
+
+枚举完成之后，我们就对SDIO的相关CMD和Response格式有了初步的了解。当然，我们使用SDIO不是为了纯粹的发送指令，否则DAT0~DAT3太浪费了。
+对于MMC或者SD这种存储设备来说，不是我们讨论的重点，我们既然枚举成了SDIO IO Only设备，那么就来看一看SDIO 设备是怎么传输数据的。
+
+SDIO设备为了和SD内存卡兼容，SD卡所有Command和Response完全兼容，同时加入了一些新的Command和Response。例如，初始化SD内存卡使用ACMD41，而SDIO卡设备则用CMD5通知DEVICE进行初始化。但二者最重要的区别是，SDIO卡比SD内存卡多了CMD52和CMD53命令，这两个命令可以方便的访问某个功能的某个地址寄存器。
+
+#### 3.1 单Byte数据(CMD52 / R5)
+
+CMD52是由HOST发往DEVICE的，它必须有DEVICE返回来的Response。 **CMD52不需要占用DAT线，读写的数据是通过CMD52或者Response来传送。每次CMD52只能读或者写一个byte．**
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20CMD52.png">
+
+
+以及CMD52的Response R5
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20R5.png">
+
+
+#### 3.2 多Byte数据(CMD53)
+
+同CMD52命令不同的是，CMD53没有返回的命令的，这里判断是否DEVICE设备读写完毕是需要驱动里面自己判断的，一般有2个方法，1.设置相应的读写完毕中断。如果DEVICE设备读写完毕，则对HOST设备发送中断。2.HOST设备主动查询DEVICE设备是否读写完毕，可以通过CMD命令是否有返回来判断是否DEVICE是否读写完毕。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/SDIO/SDIO%20SDIO%20CMD53.png">
 
 
