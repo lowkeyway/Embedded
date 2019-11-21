@@ -4,6 +4,6 @@
 
 + **LCD** 
 + **Touch**
-+ **Camera**
++ **Camera[https://github.com/lowkeyway/Embedded/tree/master/Software/Driver/Camera]**
 + **Flash**
 + **Tools**
