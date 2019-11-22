@@ -53,7 +53,7 @@
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%20%E6%A8%A1%E7%BB%84%E5%AE%9E%E7%89%A9%E8%A7%A3%E5%88%A8%E5%9B%BE.png">
 
-### 成像原理
+#### 成像原理
 
 以及，Camra的成像原理，及其流程：
 + 1、景物通过镜头（LENS）生成的光学图像投射到图像传感器(Sensor)表面上；
