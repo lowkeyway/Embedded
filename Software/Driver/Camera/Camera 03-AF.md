@@ -73,7 +73,7 @@ Of Course! 而且现在的相机都是采用多片镜片组合的方式。</br>
 
 #### VCM
 
-VCM概述：全称Voice Coil Montor，电子学里面的音圈电机，是马达的一种。因为原理和扬声器类似，所以叫音圈电机，具有高频响、高精度的特点。</br>
+VCM概述：全称Voice Coil Motor，电子学里面的音圈电机，是马达的一种。因为原理和扬声器类似，所以叫音圈电机，具有高频响、高精度的特点。</br>
 其主要原理是在一个永久磁场内，**通过改变马达内线圈的直流电流大小，来控制弹簧片的拉伸位置，从而带动上下运动**。手机摄像头广泛的使用VCM实现自动对焦功能，通过VCM可以调节镜头的位置，呈现清晰的图像。
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%20VCM%20%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
