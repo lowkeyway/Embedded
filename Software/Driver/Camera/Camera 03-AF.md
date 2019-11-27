@@ -6,7 +6,7 @@ Camera Tunning有三宝：AF/AE/AWB。
 
 ## 写在前面
 
-AF（Auto Focusing）是自动对焦的简称。作为9012年的现代人，我相信没有人会对对焦的概念不了解。不过，为了Mark一下。
+AF（Auto Focusing）是自动对焦的简称。作为9012年的现代人，我相信没有人会对对焦的概念不了解。不过，还是Mark一下。
 
 ### 焦距
 
