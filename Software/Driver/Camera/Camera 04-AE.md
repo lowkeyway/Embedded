@@ -130,6 +130,94 @@ PS： 雷神说可以用直方图均衡的方法做后期处理，可AE现在要
 
 ## 快门（Shutter）
 
+快门也叫光闸，（粤语区有按英文"Shutter"音译成“失打”一词）是照相机中控制曝光时间的重要部件，快门时间越短，曝光时间越少。
+在摄影术最初发明的那些年，拍张照片曝光时间一般都需要好几分钟，大部分照相机是不需要快门的，开始曝光的时候把镜头盖取下，然后看表，五分钟后盖上，照片完成。后来，胶片的感光速度越来越快（ISO越来越高），曝光时间变为一分钟，几秒钟，1/10秒甚至几百分之一秒，这时候用手取镜头盖就不够快了。我们需要一个能准确控制曝光时间的东西，这个东西就是快门。
+
+### 衡量标准
+
+如果把相机的Lens当做进光的管子，那么光圈就可以理解成管子的粗细，而快门就相当于阀门。光圈固定的情况下，快门打开的时间越长，进光量就越大！
+所以，快门的恒量标准应该是以时间为单位
++ 单反：我们以尼康D5为例看它的规格(1/8000 ~ 30秒)：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E5%BF%AB%E9%97%A8%20%E6%97%B6%E9%97%B4%E6%A0%87%E5%87%86.png">
+
++ 手机上：我们找一个对比，比如华为的P30 Pro的专业模式（1/4000 ~ 3S）:
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E6%89%8B%E6%9C%BA%E4%B8%AD%E5%BF%AB%E9%97%A8%E9%80%9F%E5%BA%A6.jpg">
+
+### 工作原理及适用场景
+
+至于如何做到快慢的，可以参考如下动图：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E5%BF%AB%E9%97%A8%20%E5%BF%AB%E3%80%81%E4%B8%AD%E3%80%81%E6%85%A2.gif">
+
+不同的快门时间有一些典型的应用场景，如下图：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E5%BF%AB%E9%97%A8%E7%9A%84%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF.jpg">
+
+### 快门的分类
+
+如果我们从大历史观的角度看待这个问题，那么当年蒙在笨重照相机上的黑布都可以被称为“人肉快门”。现如今，我们可以把快门分成机械快门和电子快门两大典型类：
+
+#### **机械快门**
+
+机械快门现在还广泛应用在单反上，如工作原理中展示的图一样，它就是横在Lens和Sensor之间的金属挡板，挡板打开，即打开快门，挡板放下，即关闭快门。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E5%BF%AB%E9%97%A8%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B.gif">
+
+#### **电子快门**
+
+如果说单反还有很大的体积可以放机械快门，那么手机上这么小的模组是肯定放不下金属挡板的。那难道就没有快门的概念了吗？当然有，怎么实现呢？我们可以在感光Sensor上下功夫。如果感光Sensor是一个像素一个像素排列的点阵结构，那么，我们规定每个像素是否通电，通多长时间的电来接受曝光，这个过程就是电子快门的实现基础。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E6%89%8B%E6%9C%BA%E4%B8%AD%E7%9A%84%E7%94%B5%E5%AD%90%E5%BF%AB%E9%97%A8%20%E5%8D%B7%E5%B8%98%E5%BC%8F.jpg">
+
+如上示意图，每个时刻手机只能得到感光Sensor一列的所有像素点的数据。所以通过逐行扫描的方式得到每一列的数据最后形成一张完整的照片。而这个扫描的时间我们可以认为它就是手机的快门速度了（这就是为什么我们查看手机照片的exif信息时，虽然没有机械快门但是也同样有快门速度的原因）。
+
+需要注意的是，现在的电子快门一般采用“卷帘快门”的形式。什么是“卷帘快门”？
+
+#### **卷帘快门和全局快门**
+
+我们以电子快门为例。从字面上就能理解，简单的说就是：
++ 如果快门不是一次性全部打开（不是所有的感光Sensor一次性全部接受曝光），而是像卷帘一样一条Line一条Line的这样依次进行，就叫做卷帘快门；
++ 如果快门一次性全部打开（所有感光Sensor一次性同时接受曝光），这样就叫做全局快门。
+
+文字总是无力，直接看图：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E5%8D%B7%E5%B8%98%E5%BF%AB%E9%97%A8%E5%92%8C%E5%85%A8%E5%BF%AB%E9%97%A8.gif">
+
+卷帘快门在拍摄高速运动的物体时是由缺陷的，会造成影像的畸变（果冻效应），如何畸变呢？可以参考下图，一个“俄罗斯方块的石头”被切成了条条
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E5%8D%B7%E5%B8%98%E5%BF%AB%E9%97%A8%E7%9A%84%E7%95%B8%E5%8F%98%20%E6%9E%9C%E5%86%BB%E7%8E%B0%E8%B1%A1%E6%BC%94%E7%A4%BA%E5%9B%BE.gif">
+
+难道科学家们不知道这个问题吗？为什么还要设计成卷帘模式呢？
+因为模数转换器是逐行共用，因此只能一行一行地进行转换，也就是说想要实现全局快门，就需要更多地铺设模数转换器来实现更快的读取速度，
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E5%BF%AB%E9%97%A8%20%E5%8D%B7%E5%B8%98%E7%9A%84%E5%8E%9F%E5%9B%A0.jpg">
+
+全局快门(global shutter)最主要的区别是在每个像素处增加了采样保持单元，在指定时间达到后对数据进行采样然后顺序读出，这样虽然后读出的像素仍然在进行曝光，但存储在采样保持单元中的数据却并未改变。这种结构的主要缺点在于增加了每个像素的元件数目，使得填充系数降低，所以高分辨率的sensor设计难度和生产成本都很高，另外采样保持单元还引入了新的噪音源。
+
+难道就没有办法在电子快门上实现全局曝光了吗？Sony说，他有办法：
+如下图是块146万像素堆栈式背照CMOS采用双层结构，上层为1639 X 896像素阵列，下层则是816 X 1792的模数转换器和408个信号中继器阵列，像素与模数转换器数量几乎是1:1！
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E6%89%8B%E6%9C%BA%E5%85%A8%E5%BF%AB%E9%97%A8%E7%9A%84%E5%A0%86%E6%A0%88%E8%AE%BE%E8%AE%A1.jpg">
+
+这种方案的先进之处在于使用了堆栈，以往的全局快门CMOS设计是在成像像素A旁边设计一个存储像素B，A得到的模拟数据就传输给B来短暂保存，等待模数转换器进行逐行转换，期间A可以继续进行拍摄。但问题在于这种比较取巧的方案会浪费大量CMOS面积来摆放存储像素，也没有办法完全利用所有的入射光线，换句话说就是模拟信号先天不足，需要进行数字放大，因此这种设计的信噪比和动态范围都明显更低。
+
+### 果冻效应
+
+如果体积了卷帘快门，就不能不说“果冻效应”
+
+果冻效应在照片和视频拍摄里都会出现，而且机械快门和电子快门都有，胶片相机也躲不掉……照片里的果冻效应最明显的是物体扭曲，示例图如下：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E5%8D%B7%E5%B8%98%E5%BF%AB%E9%97%A8%E7%9A%84%E6%9E%9C%E5%86%BB%E6%95%88%E5%BA%94.gif">
+
+可以看到扇叶高速旋转时，很容易就拍出右图的扭曲变形效果，形成果冻效应的根本原因在于感光Sensor读取速度太慢.CMOS最上面一排像素的曝光早于最下面一排接近1/250秒，对于高速运转的物体来说，1/250秒已经可以运动很长一段距离了，所以这就是果冻效应的一个根本原因。
+感光Sensor需要按行读取的原因又是因为采用了“卷帘快门”的模式。
+
+我们以行进中的小人来模拟这个过程：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E5%8D%B7%E5%B8%98%E5%BF%AB%E9%97%A8%E7%9A%84%E6%9E%9C%E5%86%BB%E6%95%88%E5%BA%94%E7%9A%84%E8%A1%8C%E4%BA%BA%E7%A4%BA%E6%84%8F%E5%9B%BE.gif">
+
 ## 感光度（ISO）
 
 
