@@ -218,6 +218,11 @@ PS： 雷神说可以用直方图均衡的方法做后期处理，可AE现在要
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E5%8D%B7%E5%B8%98%E5%BF%AB%E9%97%A8%E7%9A%84%E6%9E%9C%E5%86%BB%E6%95%88%E5%BA%94%E7%9A%84%E8%A1%8C%E4%BA%BA%E7%A4%BA%E6%84%8F%E5%9B%BE.gif">
 
+
+### 手机中怎么实现Shutter改变？
+
+因为Sensor本身并没有时间的概念，它是通过pixel clock数和pixel clock的频率来表示sensor曝光时间的。为了得到简便的表达方式，就用曝光行数表示曝光时间了。曝光行数=pixel clock数/每条line的pixel数。 只需要知道sensor的pixel clock频率和每行的pixel数（有效pixel+dummy pixel），便可以计算出任何曝光时间，sensor需要曝光多少行。
+
 ## 感光度（ISO）
 
 感光度，又称为ISO值，是衡量**底片对于光的灵敏程度**，由敏感度测量学及测量数个数值来决定，**ISO的值越大代表对光线越敏感**。
@@ -269,4 +274,59 @@ ISO主要应用是增加对光线敏感度，提高相机的高度曝光性能�
 
 # 支持AE的软件算法
 
+## 流程
 
+先参考AE算法思路和流程：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E6%9B%9D%E5%85%89%E7%AE%97%E6%B3%95%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+
+可见，AE的输入为当前影像的亮度值Y，输出为sensor的曝光时间和增益，isp增益和镜头光圈（如果镜头光圈可调）。当AE algorithm得到当前帧的亮度后，便会与target Y做比较，然后计算出下一次需要调整的参数，以便让影像的亮度越来越接近target Y，如下所示。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E7%AE%97%E6%B3%95%20Target%20Y.jpg">
+
+## 算法分类及过程
+
+目前比较常见的算法有平均亮度法、权重均值法、亮度直方图等。其中最普遍的就是平均亮度法。
++ 平均亮度法：平均亮度法就是对图像所以像素亮度求平均值，通过不断调整曝光参数最终达到目标亮度；
++ 权重均值法：权重均值法是对图像不同区域设置不同权重来计算图像亮度，例如相机中的各种测光模式的选择就是改变不同区域的权重。
++ 亮度直方图法：亮度直方图法是通过为直方图中峰值分配不同权重来计算图像亮度。
+
+
+自动曝光实现的过程：
+
++ 第一步：对当前图像进行亮度统计；
++ 第二步：根据当前图像亮度确定曝光值；
++ 第三步：计算新的曝光参数，曝光时间、光圈、增益；
++ 第四步：将新的曝光参数应用到相机；
++ 第五步：重复步骤一到四，直到亮度满足要求
+
+## AE中遇到的一些问题
+
+### flicker
+
+现象：图像因为sensor曝光时间不是光源频率的整数倍导致图像上出现Banding即明暗相间的条纹。
+
+产生原因：
+
+曝光时间小于1/100秒，且曝光时间处于波峰时，图片亮度比较亮
+曝光时间小于1/100秒，且曝光时间处于波谷时，图片亮度比较暗
+从能量的角度看，就是当sensor逐像素吸收外界能量成像时，外界能量有时大有时小，像素就有的亮有的暗。因此产生flicker现象。
+
+解决办法：
+
+所以只有曝光时间=光源周期的整数倍的时候，保证每个像素吸收的光能是稳定的。才可以避免flicker。(国内市电，50HZ)
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2004-AE%20%E9%97%AE%E9%A2%98%20Flicker.png">
+
+### 过曝、曝光不足
+
+照片如上面所示。
+一般都是AE算法中没有匹配好Shutter/Gain之间的关系。
+
+### AE peak
+
+AE的峰值，图像亮度平稳时，突然出现亮度高的画面。
+
+### AE震荡
+
+图像亮度忽明忽暗。
