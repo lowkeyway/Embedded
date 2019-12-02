@@ -172,6 +172,48 @@ Active Pixel指的是在像素内部有信号读出电路和放大电路的像�
 
 #### 总结
 
-跟CCD的先做电子转移，后处理不同的是，CMOS的电子转电压及缓冲放大等作用都是在成像单元内完成的（PPPD）。
+跟CCD的先做电子转移，后处理不同的是，CMOS的电子转电压及缓冲放大等作用都是在成像单元内完成的（PPD）。
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS%20%E9%98%B5%E5%88%97%E8%AF%BB%E5%8F%96%E7%94%B5%E5%AE%B9%E5%80%BC.gif">
+
+
+### CCD和CMOS的一些差别
+
+先回顾一下两者在结构上的对比：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CCD%26CMOS%20%E7%BB%93%E6%9E%84%E5%8C%BA%E5%88%AB.gif">
+
+由于数据传送方式不同，因此CCD与CMOS传感器在效能与应用上亦有诸多差异，这些差异包括灵敏度、成本、分辨率、噪声与耗电量等。
+
++ **灵敏度差异**
+
+由于CMOS传感器每个画素由四个晶体管与一个感光二极管所构成（含放大器与A/D转换电路），使得每个画素的感光区域远小于画素本身的表面积，因此在画素尺寸（pixel size）相同的情况下，CMOS传感器的灵敏度会低于CCD传感器。
+
+
++ **成本差异**
+
+由于CMOS传感器采用一般半导体电路最常用的CMOS制程，可以轻易地将周边电路（如AGC、CDS、Timing generator或DSP等）整合到传感器芯片中，因此可以节省外围芯片所需负担的成本；而CCD由于采用电荷传递的方式传送数据，只要其中有一个画素不能运作，就会导致一整排的数据不能传送，因此控制CCD传感器的良率比CMOS传感器更加困难，即使有经验的厂商也很难在产品问世的半年内就突破50％的水平，因此通常CCD传感器的成本会高于CMOS传感器。
+
+
++ **分辨率差异**
+
+如上所述，CMOS传感器的每个画素都比CCD传感器更加复杂，其pixel size很难达到CCD传感器的水平，因此，当我们比较相同尺寸的CCD与CMOS传感器时，CCD传感器的分辨率通常会优于CMOS传感器的水平。举例来说，目前市面上210万画素的水平（OmniVision的OV2610，2002/6推出），其尺寸为1/2吋，pixel size为4.25微米，但Sony在2002/12推出的ICX452，其尺寸与OV2610相差不多（1/1.8吋），但分辨率却能高达513万画素，pixel size亦只有2.78微米的水平。
+
++ **噪声差异**
+
+由于CMOS传感器每个感光二极管都需搭配一个放大器，而放大器属于模拟电路，很难让每个放大器所得到的结果维持一致性，因此与只有一个放大器放在芯片边缘的CCD传感器比较之下，CMOS传感器的噪声就会增加很多，影响影像质量。
+
+
++ **耗电量差异**
+
+CMOS传感器的影像撷取方式为主动式，感光二极管所产生的电荷会直接由旁边的晶体管放大输出，但CCD传感器则为被动式撷取，需外加电压让每个画素中的电荷移动，而这外加电压通常需要**12～18V**的水平；因此，CCD传感器除了在电源管理线路设计上的难度更高之外（需外加power IC），高驱动电压更使其耗电量远高于CMOS传感器。
+
+
+综合以上分析，CCD传感器在灵敏度、分辨率、以及噪声控制等方面均优于CMOS传感器，而CMOS传感器则具有低成本、低耗电以及高整合度的特性。不过，随着CCD与CMOS传感器技术的进步，两者的差异似乎有逐渐缩小的态势，例如CCD传感器持续在耗电量上作改进，以期应用于行动通讯市场（这方面的代表业者为Sanyo）；CMOS传感器则持续改善分辨率与灵敏度的不足，以期应用于更高阶的影像产品市场；
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CCD%26CMOS%20%E6%80%A7%E8%83%BD%E5%8C%BA%E5%88%AB.png">
+
+
+
+
+
