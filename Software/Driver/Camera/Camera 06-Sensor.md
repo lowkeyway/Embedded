@@ -216,5 +216,56 @@ CMOS传感器的影像撷取方式为主动式，感光二极管所产生的电�
 
 
 
+# 工艺
+
+我们从Camera Image Sensor在整颗模组中的位置，聊到了Camera Image Sensor自身的结构，话锋又转到了Camera Image Sensor的CCD/CMOS的分类，如今再回归到谈论Sensor本身的工艺上，目的是在细化的时候，我们把注意力都集中在CMOS上。即CIS(CMOS Image Sensor）。
+
+CMOS的制作和CPU的制作类似，需要特殊的光刻机对硅晶圆进行蚀刻，形成像素区域（Pixel Section）和处理回路区域（Circuit Section）。像素区域就是种植像素的地方，而处理回路顾名思义，就是管理这一群像素的电路。我们可以根据两者的位置、工艺的不同，分成三种：前照式、背照式、堆栈式。
+
+## 前照式
+
+前照式FSI（Front Side Illumination）是CMOS中出现最早的，我们先看看前面提到过的CMOS的结构图：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS%20%E5%8D%95%E5%83%8F%E7%B4%A0%E7%BB%93%E6%9E%84%E5%88%A8%E9%9D%A2%E5%9B%BE.jpg">
+
++ **优点：**
+FSI按照半导体制造流程而设计。对pixel而言，光是从前面的金属布线之间进入，然后再聚焦在感光区域photodiode上。对于较大的像素，FSI的性能还是可以满足要求。因为pixel的optical stack高度与像素面积之比不大，感光面积也相对可以保证。优点在于FSI制造工艺简单，成本低、良率高。与BSI相比，FSI对制造工艺要求较低。
+
++ **缺点：**
+结构中构成传感器感光区域的金属电极和晶体管被置于基板表面，不仅阻碍了片上透镜的采光进程，而且也成为像素尺寸小型化和扩大光学视角响应方面的一个重要难题。随着pixel尺寸的缩小的，fill factor小、光学路径长、金属布线反射吸收损耗大等，都限制了sensor的性能。
+
+## 背照式
+
+背照式BSI（Back side illumination）是相对于前照式而言的，是一种针对FSI的缺点的改进，我们可以通过对比图看出他们的不同：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20%E5%89%8D%E7%85%A7%E5%BC%8F%E5%92%8C%E8%83%8C%E7%85%A7%E5%BC%8F%20%E6%A8%AA%E6%88%AA%E9%9D%A2%E5%AF%B9%E6%AF%94.jpg">
+
+可以看出，FSI光从正面入射进入感光区，BSI是指光从背面入射进入感光区。前和背对应的是半导体制成工艺的front-end-of-line (FEOL)和back end of line (BEOL)。其实就是说是半导体加工后段制程sensor金属连接布线。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20%E5%89%8D%E7%85%A7%E5%BC%8F%E5%92%8C%E8%83%8C%E7%85%A7%E5%BC%8F%20%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg">
+
+把感光区和金属布线区调换顺序。
+
++ **优点：**
+
+因为像素深度变浅了，所以开口率变得更大，进光量会变大；
+能够使电气组件与光线分离，使光路径能够被独立地优化，避免了FSI金属布线层吸收、反射；
+并且BSI pixel内optical stack大大减小。BSI与FSI相比，fill factor大，几乎可达到100%。因此BSI能够获得更高的QE（量子效率）；
+BSI结构大大减小了optical stack的厚度，因此对入射角度的要求也会更加友好。
+
++ **缺点**
+
+BSI工艺复杂、难度高。
 
 
+## 堆栈式
+
+堆栈式CMOS，英文叫做"Stacked CMOS"。
+我们在前面就提到过CMOS像素的制作其实跟CPU一样，即便是在背照式感光区和电路区也是在一个晶圆上侵蚀出来的。那么，这就要求感光区和电路区要有相同的制作工艺，经历同一个制作流程。比如感光区明明可以用65nm的工艺，但是限于电路的要求可能必须都在28nm的晶圆下操作，这无疑是个浪费。
+能不能把两者分开呢？SONY说，当然可以！
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20%E5%A0%86%E6%A0%88%E8%AE%BE%E8%AE%A1%E5%92%8C%E9%9D%9E%E5%A0%86%E6%A0%88%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%AF%B9%E6%AF%94.jpg">
+
+这么一来，感光区和电路区就可以分开加工，并且堆叠设计。即避免了wafer工艺的浪费同时也缩小了Pixel的面积。真是索尼大法好！
+
+堆叠式不仅继承了背照式的优点（像素区域依然是背照式），还克服了其在制作上的限制与缺陷。由于处理回路的改善和进步，摄像头也将能提供更多的功能，比如说硬件HDR，慢动作拍摄等等。像素与处理回路分家的同时，摄像头的体积也会变得更小，但功能和性能却不减，反而更佳。像素区域（CMOS的尺寸）可以相应地增大，用来种植更多或者更大的像素。处理回路也会的到相应的优化。 
