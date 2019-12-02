@@ -129,13 +129,14 @@ CMOS (Complementary Metal Oxide Semiconductor)：互补金属氧化物半导体�
 #### 工作原理
 
 我们希望列出来单个Pixel的工作原理，先看看它的等效电路图：
+
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS%20%E5%8D%95%E5%83%8F%E7%B4%A0%E7%AD%89%E6%95%88%E7%94%B5%E8%B7%AF.jpg">
 
 从CMOS的等效电路图可以看出来，CMOS的工作原理比CCD要简单很多，即：单个像素的光电传感器的电荷值经过CMOS开关直接传出来即可。单即便是这个简单的过程中个，工程师们也设计出来很多措施不断改善、演进，简单的分类是无源型和有源型：
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS%20Active%26Passive.png">
 
-##### Passive Pixel Sensor（无源像素型（PPS））
+##### **Passive Pixel Sensor（无源像素型（PPS））**
 简单的说，就是一个PN节作为photodiode感光，以及一个与它相连的reset晶体管作为一个开关。
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS%20PPS%20%E6%97%A0%E6%BA%90%E5%83%8F%E7%B4%A0.png">
@@ -152,7 +153,7 @@ CMOS (Complementary Metal Oxide Semiconductor)：互补金属氧化物半导体�
 + 2、PN结的信号，先经过读出电路，才进行放大。这种情况，注入到读出信号的噪声会随着信号一起放大。
 
 
-##### Active Pixel Sensor（无源像素型（APS））
+##### **Active Pixel Sensor（无源像素型（APS））**
 
 Active Pixel指的是在像素内部有信号读出电路和放大电路的像素结构。如对比图(a)，信号传出Pixel之前，就已经读出并放大，这减少了读出信号对噪声的敏感性。随着工艺的发展，基于Active Pixel的CMOS传感器在暗电流和噪声表现上有很大提升，Active Pixel结构随之成为了CMOS传感器的主流设计。
 如今的APS设计中，最常用的就是基于PPD结构（Pinned Photodiode Pixel）的像素结构。PPD pixel包括一个PPD的感光区，以及4个晶体管，所以也称为**4T像素结构**。PPD的出现，是CMOS性能的巨大突破，它允许相关双采样（CDS）电路的引入，消除了复位引入的kTC噪声，运放器引入的1/f噪声和offset噪声。
