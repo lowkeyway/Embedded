@@ -106,3 +106,72 @@ CCD元件电荷转移也就是数据读取的方法：由下图示可以看出�
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CCD%20%E9%98%B5%E5%88%97%E8%AF%BB%E5%8F%96%E7%94%B5%E5%AE%B9%E5%80%BC.gif">
 
 ### CMOS
+
+CMOS (Complementary Metal Oxide Semiconductor)：互补金属氧化物半导体，由硅和锗这两种元素做成的半导体，使其在CMOS上共存着带N(-)和P(+)级的半导体 。对于CMOS这个名词来说，学习过数电的同学们肯定都不陌生，我们今天主要了解一下，CMOS在Camera Image Sensor中的应用：
+
+#### 实物图
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS.jpg">
+
+#### 工作框图
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS%20%E5%B7%A5%E4%BD%9C%E6%A1%86%E5%9B%BE.png">
+
+跟CCD一样，每个像素包括感光区和读出电路，不同的是每个像素的信号经由模拟信号处理后，交由ADC进行模数转换后即可输出到数字处理模块。像素阵列的信号读出如下：
+
++ 每个像素在进行reset，进行曝光。
++ 行扫描寄存器，一行一行的激活像素阵列中的行选址晶体管。
++ 列扫描寄存器，对于每一行像素，一个个的激活像素的列选址晶体管。
++ 读出信号，并进行放大。
+
+注：PD：photodiode
+
+#### 工作原理
+
+我们希望列出来单个Pixel的工作原理，先看看它的等效电路图：
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS%20%E5%8D%95%E5%83%8F%E7%B4%A0%E7%AD%89%E6%95%88%E7%94%B5%E8%B7%AF.jpg">
+
+从CMOS的等效电路图可以看出来，CMOS的工作原理比CCD要简单很多，即：单个像素的光电传感器的电荷值经过CMOS开关直接传出来即可。单即便是这个简单的过程中个，工程师们也设计出来很多措施不断改善、演进，简单的分类是无源型和有源型：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS%20Active%26Passive.png">
+
+##### Passive Pixel Sensor（无源像素型（PPS））
+简单的说，就是一个PN节作为photodiode感光，以及一个与它相连的reset晶体管作为一个开关。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS%20PPS%20%E6%97%A0%E6%BA%90%E5%83%8F%E7%B4%A0.png">
+
+它的工作原理：
++ 1、在开始曝光之前，该像素的行选择地址会上电（图中未画出），从而RS会激活，连通PN结与column bus。同时列选择器会上电，此时PN结会被加载高反向电压（例如3.3 V）。在Reset（即PN结内电子空穴对达到平衡）完成后，RS将会被停止激活，停止PN结与column bus的连通。
++ 2、在曝光时间内，PN结内的硅在吸收光线后，会产生电子-空穴对。由于PN结内电场的影响，电子-空穴对会分成两个电荷载体，电子会流向PN结的n+n+端，空穴会流向PN结的p-substrate。因此，经过曝光后的的PN结，其反向电压会降低。
++ 3、在曝光结束后，RS会被再次激活，读出电路会测量PN结内的电压，该电压与原反向电压之间的差，就是PN结接受到的光信号。（在主流sensor设计中，电压差与光强成正比关系）
++ 4、在读出感光信号后，会对PN结进行再次reset，准备下次曝光。
+
+这种像素结构，其读出电路完全位于像素外面，称为Passive Pixel。Passive Pixel的读出电路简单，整个Pixel的面积可以大部分用于构造PN结，所以其满阱电容一般会高于其他结构。但是，由于其信号的读出电路位于Pixel外面，它受到电路噪声的影响比Active Pixel大。Passivel Pixel噪声较大有2个主要原因：
+
++ 1、相对读出电路上的寄生电容，PN结的电容相对较小。代表其信号的电压差相对较小，这导致其对电路噪声很敏感。
++ 2、PN结的信号，先经过读出电路，才进行放大。这种情况，注入到读出信号的噪声会随着信号一起放大。
+
+
+##### Active Pixel Sensor（无源像素型（APS））
+
+Active Pixel指的是在像素内部有信号读出电路和放大电路的像素结构。如对比图(a)，信号传出Pixel之前，就已经读出并放大，这减少了读出信号对噪声的敏感性。随着工艺的发展，基于Active Pixel的CMOS传感器在暗电流和噪声表现上有很大提升，Active Pixel结构随之成为了CMOS传感器的主流设计。
+如今的APS设计中，最常用的就是基于PPD结构（Pinned Photodiode Pixel）的像素结构。PPD pixel包括一个PPD的感光区，以及4个晶体管，所以也称为**4T像素结构**。PPD的出现，是CMOS性能的巨大突破，它允许相关双采样（CDS）电路的引入，消除了复位引入的kTC噪声，运放器引入的1/f噪声和offset噪声。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS%20PPPD%20%E6%9C%89%E6%BA%90%E5%83%8F%E7%B4%A0.png">
+
+
+对于PPD，右边部分电路只是信号读出电路。读出电路与光电转换结构通过TX完全隔开，这样可以将光感区的设计和读出电路完全隔离开，有利于各种信号处理电路的引入（如CDS，DDS等）。另外，PPD感光区的设计采用的是p-n-p结构，减小了暗电流。PPD像素的工作方式如下：
++ 1、 曝光。光照射产生的电子-空穴对会因PPD电场的存在而分开，电子移向n区，空穴移向p区。
++ 2、 复位。在曝光结束时，激活RST，将读出区（n+区）复位到高电平。
++ 3、 复位电平读出。复位完成后，读出复位电平，其中包含运放的offset噪声，1/f噪声以及复位引入的kTC噪声，将读出的信号存储在第一个电容中。
++ 4、 电荷转移。激活TX，将电荷从感光区完全转移到n+区用于读出，这里的机制类似于CCD中的电荷转移。
++ 5、 信号电平读出。接下来，将n+n+区的电压信号读出到第二个电容。这里的信号包括：光电转换产生的信号，运放产生的offset，1/f噪声以及复位引入的kTC噪声
++ 6、 信号输出。将存储在两个电容中的信号相减（如采用CDS，即可消除Pixel中的主要噪声），得到的信号在经过模拟放大，然后经过ADC采样，即可进行数字化信号输出。
+
+但是需要指出的是：由于PPD像素结构在暗电流和噪声方面的优异表现，近年来市面上的CMOS传感器都是以PPD结构为主。但是，PPD结构有4个晶体管，有的设计甚至有5个，这大大降低了像素的填充因子（即感光区占整个像素面积的比值），这会影响传感器的光电转换效率，进而影响传感器的噪声表现。
+
+#### 总结
+
+跟CCD的先做电子转移，后处理不同的是，CMOS的电子转电压及缓冲放大等作用都是在成像单元内完成的（PPPD）。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20CMOS%20%E9%98%B5%E5%88%97%E8%AF%BB%E5%8F%96%E7%94%B5%E5%AE%B9%E5%80%BC.gif">
