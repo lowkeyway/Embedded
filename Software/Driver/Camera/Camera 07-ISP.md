@@ -3,7 +3,7 @@
 ISP(Image Signal Processor)，即图像处理，主要作用是对前端图像传感器输出的信号做后期处理，主要功能有线性纠正、噪声去除、坏点去除、内插、白平衡、自动曝光控制等，依赖于ISP才能在不同的光学条件下都能较好的还原现场细节，ISP技术在很大程度上决定了摄像机的成像质量。
 光线始于Lens，终于Sensor，CIS之后再无模拟。光线被Sensor转换为电讯号之后，经过ADC的采样、量化，最终形成了我们熟悉的01世界的数字图像。数字图像的下一个加工厂就是ISP了！
 
-<img src"https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/ISP/Camera%2007-ISP%20ARM_ISP.png">
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/ISP/Camera%2007-ISP%20ARM_ISP.png">
 
 看ISP的直译就知道，它也是一个处理器，所以根据它的位置，我们可以把它分为集成式和分离式：
 
