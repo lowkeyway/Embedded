@@ -40,7 +40,7 @@
 
 ## 芯片手册
 
-不会看芯片手册的程序员也不是好程序员。
+不会看芯片手册的程序员也不是好程序员。我挑选了两款主流厂家的Sensor（OV48B和IMX327），对比一下：
 
 ### OV48B
 
@@ -72,5 +72,17 @@
 以及放一下IMX327的内部框图
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20Camera%20Driver%20IC%20%E5%86%85%E9%83%A8%E6%A1%86%E5%9B%BE(Sony%20Imx327).png">
+
+## 初始化
+
+千里之行，始于足下。Camera IC再厉害，也离不开上电、CLK、I2C控制这一套。由上面的图示可以看出来，一般的Camera Sensor有三路电，一路CLK，一套SCCB。如果系统无法识别IC，那么肯定是初始化过程中的这三者遇到了问题，可以逐一排查。
+
+先看上电时序：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20%E4%B8%8A%E7%94%B5%E6%97%B6%E5%BA%8F.png">
+
+再看整个初始化过程：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20%E5%88%9D%E5%A7%8B%E5%8C%96%E6%B5%81%E7%A8%8B.png">
 
 
