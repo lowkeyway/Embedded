@@ -86,3 +86,50 @@
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20%E5%88%9D%E5%A7%8B%E5%8C%96%E6%B5%81%E7%A8%8B.png">
 
 
+# Android Camera 
+
+## Android Architecture
+
+在了解Camera在Android中的地位之前，总是要先搞清楚Android的架构。（什么是Android应该可以略过吧。）
+从Android官网摘来分层图：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20%E6%A1%86%E6%9E%B6%E5%88%86%E5%B1%82%E5%9B%BE.png">
+
+从这张图上可以看出，Android分为5层：
+
++ **Applications**:
+
+最上层的应用，编译后生成某应用APK；
++ **Application Framework**:
+
+主要为Applications提供API;
++ **Native Libraries/Android Runtime**:
+
+包括Framework和Service，以及Android最新的ART虚拟机；
++ **HAL/HIDL**:
+
+硬件抽象层, 用来链接driver和 Service;
++ **Kernel**:
+
+硬件driver的驱动；
+
+这里，我们重点关注Kernel->HAL->Native Libratries这三层。
+
+## Android Camera Architecture
+
+我们拿Camera相关内容去映射到上面的分层中：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%9B%BE.png">
+
+由上图可以看出，我们可以着重关注三个部分：
++ **Camera Service**: 
+
+即在Native Libraries层，是Camera Framework的范畴，包括了Camera Service和Camera Client；
++ **Camera HA**L:
+
+即在HAL/HIDL层，用来连接Camera Driver和Camera Service的（这部分Android提供了原型API，各个平台厂也会修改）
++ **Camera Driver**: 
+
+即在Kernel这一层，用的是Linux的V4L2架构，然后贴上Platform Vendor和Sensor Driver IC Vendor的Patch，用来驱动各自的Camera IC的；
+
+
