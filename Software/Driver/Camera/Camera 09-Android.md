@@ -168,3 +168,38 @@
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20API%E5%92%8CHAL%E7%89%88%E6%9C%AC%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB.JPG">
 
 
+因为没有环境验证，如下内容来自[stonedemo](https://blog.csdn.net/qq_16775897/article/details/81536598)的系列教程：
+
+## 框图拆解
+
+我们先定义一个比较详细的框图内容：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20Camera%20CSDN%E6%A1%86%E5%9B%BE.png">
+
+红色虚线是上行路线，黑色虚线则是下行路线。
+总的来说，会分成三大部分来分析：
+
+从 App 连接到 CameraService；
+从 CameraService 连接到 HAL Service；
+从 HAL Service 连接到 Camera HAL。
+
+### 从 App 连接到 CameraService
+
+从 Application 连接到 CameraService，这涉及到 Android 架构中的三个层次：App 层，Framework 层，Runtime 层。
+其中，App 层直接调用 Framework 层所封装的方法，而 Framework 层需要通过 Binder 远程调用 Runtime 中 CameraService 的函数。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20Camera%20CSDN%20%E4%BB%8E%20App%20%E5%88%B0%20CameraService.png">
+
+### 从 CameraService 连接到 HAL Service
+
+由于 Android O 中加入了 Treble 机制，它带来的一个巨大变化就是将原本的 CameraServer 进程分隔成 CameraServer 与 Provider service 两个进程，它们之间通过 HIDL（一个类似 Binder 的机制）进行通信。
+在这种情况下，CameraServer 一端主体为 CameraService，它将会寻找现存的 Provider service，将其加入到内部的 CameraProviderManager 中进行管理，相关操作都是通过远端调用进行的。
+而 Provider service 一端的主体为 CameraProvider，它在初始化时就已经连接到 libhardware 的 Camera HAL 实现层，并以 CameraModule 来进行管理。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20Camera%20CSDN%20%E4%BB%8E%20CameraService%20%E5%88%B0%20HAL%20Service.png">
+
+### 从 HAL Service 连接到 Camera HAL
+
+在 HAL3 中，Camera HAL 的接口转化层（以及流解析层）由 QCamera3HardwareInterface 担当，而接口层与实现层与 HAL1 中基本没什么差别，都是在 mm_camera_interface.c 与 mm_camera.c 中。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20Camera%20CSDN%20%E4%BB%8E%20HAL%20Service%20%E5%88%B0%20Camera%20HAL.png">
