@@ -86,7 +86,7 @@
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20%E5%88%9D%E5%A7%8B%E5%8C%96%E6%B5%81%E7%A8%8B.png">
 
 
-# Android Camera 
+# Android Camera
 
 ## Android Architecture
 
@@ -132,5 +132,39 @@
 + **Camera Driver**: 
 
 即在Kernel这一层，用的是Linux的V4L2架构，然后贴上Platform Vendor和Sensor Driver IC Vendor的Patch，用来驱动各自的Camera IC的；
+
+
+## Android Camera Implement
+
+在了解了框架之后，我们尝试把框架内的一些关键接口和方法描述一下，还是先采用Android官方的图：
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20Camera%20%E5%AE%9E%E7%8E%B0%E7%BB%93%E6%9E%84%E5%9B%BE.png">
+
+在展开这个图之前，有必要先回顾一下Android各个版本的代号以及时间：
++ Android4 K 2013年 
+  + 相机 API1.Android 4.4 及更低版本设备上的应用级相机框架，通过 android.hardware.Camera 类提供。
+  + 相机 HAL3.1.随 Android 4.4 发布的相机设备 HAL 版本。
++ Android5 L 2014年 
+  + Camera v2 API. Android 5.0对拍照API进行了全新的设计，新增了全新设计的Camera v2 API，这些API不仅大幅提高了Android系统拍照的功能，还能支持RAW照片输出，甚至允许程序调整相机的对焦模式、曝光模式、快门等。
+  + 相机 HAL3.2
++ Android6 M 2015年
++ Android7 N 2016年
++ Android8 O 2017年 
+  + 引入了 Treble，用于将 CameraHal API 切换到由 HAL 接口描述语言 (HIDL) 定义的稳定接口
++ Android9 P 2018年
++ Android10 Q 2019年
+  + Camera HAL 3.5
+
+为什么要回顾这些呢？因为Android更新太快了，应用层的API Version有API1和API2，HAL层的Version有HAL1和HAL3，而且到了Android O后，又因为引入了Treble机制，导致Android HAL又大改了一次，所以我们后面将要提到的流程中，都是基于Android 8之后的API2 + HAL3。
+
+当然，碎片化虽然严重，但是Android工程师们可不是吃素的，各个版本都可以兼容，参考下图：
+
++ 官方版本
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20Camera%20%E6%97%A7%E7%89%88%E5%85%BC%E5%AE%B9%E5%AE%9E%E7%8E%B0%E7%BB%93%E6%9E%84%E5%9B%BE.png">
+
++ 民间版本
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20API%E5%92%8CHAL%E7%89%88%E6%9C%AC%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB.JPG">
 
 
