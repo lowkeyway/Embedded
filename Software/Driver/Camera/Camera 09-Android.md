@@ -99,19 +99,20 @@
 
 + **Applications**:
 
-最上层的应用，编译后生成某应用APK；
-+ **Application Framework**:
-
-主要为Applications提供API;
+最上层的应用，编译后生成某应用APK。很多此类 API 都可以直接映射到底层 HAL 接口，并可提供与实现驱动程序相关的实用信息。
++ **Application Framework/JNI**:
+  + 主要为Applications提供API。
+  + JNI 使Application Framework和Libraries可交互;
 + **Native Libraries/Android Runtime**:
-
-包括Framework和Service，以及Android最新的ART虚拟机；
+  + 包括Framework和Service。系统服务是专注于特定功能的模块化组件，例如窗口管理器、搜索服务或通知管理器。 应用框架 API 所提供的功能可与系统服务通信，以访问底层硬件。Android 包含两组服务：“系统”（诸如窗口管理器和通知管理器之类的服务）和“媒体”（与播放和录制媒体相关的服务）；
+  + Android最新的ART虚拟机，替代之前的Java虚拟机，可以直接把Application字节转换成机器码；
 + **HAL/HIDL**:
 
-硬件抽象层, 用来链接driver和 Service;
+  + 硬件抽象层（Hardware Abstract Layer） 用来链接driver和 Service。HAL 可定义一个标准接口以供硬件供应商实现，这可让 Android 忽略较低级别的驱动程序实现。借助 HAL，您可以顺利实现相关功能，而不会影响或更改更高级别的系统。HAL 实现会被封装成模块，并会由 Android 系统适时地加载。
+  + HAL接口描述语言（HAL Interface Description Language），Android 8.0 重新设计了 Android 操作系统框架（在一个名为“Treble”的项目中），以便让制造商能够以更低的成本更轻松、更快速地将设备更新到新版 Android 系统。在这种新架构中，HAL 接口定义语言（HIDL，发音为“hide-l”）指定了 HAL 和其用户之间的接口，让用户能够替换 Android 框架，而无需重新编译 HAL。
 + **Kernel**:
 
-硬件driver的驱动；
+硬件driver的驱动。发设备驱动程序与开发典型的 Linux 设备驱动程序类似。Android 使用的 Linux 内核版本包含几个特殊的补充功能，例如：Low Memory Killer（一种内存管理系统，可更主动地保留内存）、唤醒锁定（一种 PowerManager 系统服务）、Binder IPC 驱动程序以及对移动嵌入式平台来说非常重要的其他功能。这些补充功能主要用于增强系统功能，不会影响驱动程序开发。您可以使用任意版本的内核，只要它支持所需功能（如 Binder 驱动程序）即可。
 
 这里，我们重点关注Kernel->HAL->Native Libratries这三层。
 
