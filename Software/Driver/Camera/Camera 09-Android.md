@@ -159,11 +159,11 @@
 
 当然，碎片化虽然严重，但是Android工程师们可不是吃素的，各个版本都可以兼容，参考下图：
 
-+ 官方版本
++ [官方版本](https://source.android.com/devices/camera)
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20Camera%20%E6%97%A7%E7%89%88%E5%85%BC%E5%AE%B9%E5%AE%9E%E7%8E%B0%E7%BB%93%E6%9E%84%E5%9B%BE.png">
 
-+ 民间版本
++ [民间版本](https://www.jianshu.com/p/4e838a5cdb05)
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20API%E5%92%8CHAL%E7%89%88%E6%9C%AC%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB.JPG">
 
