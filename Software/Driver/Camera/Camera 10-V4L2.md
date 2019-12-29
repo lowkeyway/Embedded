@@ -1,12 +1,12 @@
 V4L2是V4L的升级版本，为Video For Linux之意。是Linux中专门给Video设计的一套框架。
 V4L2支持的设备十分广泛，但是其中只有很少一部分在本质上是真正的视频设备：
 
-+ **Video capture device** ： 从摄像头等设备上获取视频数据。对很多人来讲，video capture是V4L2的基本应用。设备名称为/dev/video,主设备号81，子设备号0~63
++ **Video capture device** ： 从摄像头等设备上获取视频数据。对很多人来讲，video capture是V4L2的基本应用。设备名称为/dev/video,主设备号81，子设备号0-63
 + **Video output device** ： 将视频数据编码为模拟信号输出。与video capture设备名相同。
 + **Video overlay device** ： 将同步锁相视频数据（如TV）转换为VGA信号，或者将抓取的视频数据直接存放到视频卡的显存中。
 + **Video output overlay device** ：也被称为OSD(On-Screen Display)
-+ **VBI device** ： 提供对VBI（Vertical Blanking Interval）数据的控制，发送VBI数据或抓取VBI数据。设备名/dev/vbi0~vbi31,主设备号81,子设备号224~255
-+ **Radio device** ： FM/AM发送和接收设备。设备名/dev/radio0~radio63,主设备号81，子设备号64~127
++ **VBI device** ： 提供对VBI（Vertical Blanking Interval）数据的控制，发送VBI数据或抓取VBI数据。设备名/dev/vbi0-vbi31,主设备号81,子设备号224-255
++ **Radio device** ： FM/AM发送和接收设备。设备名/dev/radio0-radio63,主设备号81，子设备号64~127
 
 在Camera这里，我们只关心Video Capture Device。
 我们要了解V4L2可以从用户态和内核态两个部分来看看如何使用和实现V4L2的一些API和关键结构体。
