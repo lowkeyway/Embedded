@@ -1074,3 +1074,8 @@ struct v4l2_buffer {
 当用户空间拿到v4l2_buffer，可以获取到缓冲区的相关信息。Byteused是图像数据所占的字节数，如果是V4L2_MEMORY_MMAP方式，m.offset是内核空间图像数据存放的开始地址，会传递给mmap函数作为一个偏移，通过mmap映射返回一个缓冲区指针p，p+byteused是图像数据在进程的虚拟地址空间所占区域；如果是用户指针缓冲区的方式，可以获取的图像数据开始地址的指针m.userptr，userptr是一个用户空间的指针，userptr+byteused便是所占的虚拟地址空间，应用可以直接访问
 
 ```
+
+
+参考：
+https://www.cnblogs.com/vedic/p/10763838.html
+https://blog.csdn.net/u013904227/article/details/80718831
