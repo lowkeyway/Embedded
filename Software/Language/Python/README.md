@@ -7,3 +7,5 @@
 [lamba](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/Python/lambda.md)
 
 [map](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/Python/map.md)
+
+[迭代器/生成器](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/Python/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8.md)
