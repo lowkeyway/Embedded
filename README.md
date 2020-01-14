@@ -26,7 +26,7 @@ Some embedded knowledge, especially for interview.
 + **Makefile**
 
 ### [OS](https://github.com/lowkeyway/Embedded/tree/master/Software/OS)
-+ **Linux**
++ **[Linux](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Linux)**
 + **Android**
 + **Threadx**
 + **Bootloader**
