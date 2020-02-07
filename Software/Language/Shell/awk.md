@@ -36,3 +36,26 @@ lowkeyway@lowkeyway:~$ echo "aa bb cc dd ee" | awk -F 'bb' '{printf $2}'
  cc dd ee
 
 ```
+
+# 3. 变量
+
+## 3.1  FS（字段分隔符）
+
+默认是空格和制表符。
+
+$0 表示当前整行内容，$1，$2 表示第一个字段，第二个字段
+
+```
+lowkeyway@lowkeyway:~/code/test$ echo "aa bb cc dd ee" | awk '{print $0}'
+aa bb cc dd ee
+lowkeyway@lowkeyway:~/code/test$ echo "aa bb cc dd ee" | awk '{print $1}'
+aa
+lowkeyway@lowkeyway:~/code/test$ echo "aa bb cc dd ee" | awk '{print $3}'
+cc
+```
+
+## 3.2 NF（当前行的字段个数）
+
+$NF就代表最后一个字段，$(NF-1)代表倒数第二个字段
+
+
