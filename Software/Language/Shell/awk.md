@@ -59,3 +59,5 @@ cc
 $NF就代表最后一个字段，$(NF-1)代表倒数第二个字段
 
 
+
+https://www.cnblogs.com/kanwan/p/11962607.html
