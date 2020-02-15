@@ -1,3 +1,3 @@
 # Shell
 
-This folder is used to mark some Linux Shell knowledge.
+**[awk](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/Shell/awk.md)**
