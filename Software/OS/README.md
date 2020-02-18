@@ -4,4 +4,4 @@
 + **Android**
 + **Threadx**
 + **Bootloader**
-+ **Others**
++ **[Others](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Others)**
