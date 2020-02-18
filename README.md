@@ -27,10 +27,11 @@ Some embedded knowledge, especially for interview.
 
 ### [OS](https://github.com/lowkeyway/Embedded/tree/master/Software/OS)
 + **[Linux](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Linux)**
++ **Windows**
 + **Android**
 + **Threadx**
 + **Bootloader**
-+ **Others**
++ **[Others](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Others)**
 
 ### [Driver](https://github.com/lowkeyway/Embedded/tree/master/Software/Driver)
 + **LCD**
