@@ -11,9 +11,9 @@ const typeof(((type*)0)->member)*__mptr=(ptr);\
 很明显，这里的XXX是从linux里面抄出来的container_of
 先看第一个宏
 ```C
-#define offsetof(TYPE,MEMBER)((size_t)&((TYPE*)0)->MEMBER)， (TYPE*)0
+#define offsetof(TYPE,MEMBER)((size_t)&((TYPE*)0)->MEMBER)
 ```
-表示把0地址转换成指向TYPE类型的指针，&((TYPE*)0)->MEMBER就表示TYPE类型下MEMBER成员的地址，因为TYPE的地址是0，所以这个地址就是MEMBER相对于TYPE类型的偏移量。
+ (TYPE*)0 表示把0地址转换成指向TYPE类型的指针，&((TYPE*)0)->MEMBER就表示TYPE类型下MEMBER成员的地址，因为TYPE的地址是0，所以这个地址就是MEMBER相对于TYPE类型的偏移量。
 
 再看第二个宏
 ```C
