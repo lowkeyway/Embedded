@@ -1,5 +1,7 @@
 # 一、Git工作流程
 
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/OS/Others/Pic/Git/git%E5%B7%A5%E4%BD%9C%E5%8C%BA%E5%9F%9F.png">
+
 以上包括一些简单而常用的命令，但是先不关心这些，先来了解下面这4个专有名词。
 
 Workspace：工作区
@@ -44,3 +46,8 @@ git commit后同步index的目录树到本地仓库，方便从下一步通过gi
 
 下面这幅图更加直接阐述了四个区域之间的关系，可能有些命令不太清楚，没关系，下部分会详细介绍。
 
+<img src=https://github.com/lowkeyway/Embedded/blob/master/Software/OS/Others/Pic/Git/git%E5%B7%A5%E4%BD%9C%E5%8C%BA%E5%9F%9F%E5%92%8C%E5%91%BD%E4%BB%A4%E5%AF%B9%E5%BA%94%E5%9B%BE.png>
+
+二、常用Git命令
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/OS/Others/Pic/Git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8.png">
