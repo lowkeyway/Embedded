@@ -191,3 +191,5 @@ git push origin "tag name"				//上传本地tag
 git tag -d "tag name"
 
 git push origin :refs/tags/"tag name "		//删除远程tag
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/OS/Others/Pic/Git/git%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.png">
