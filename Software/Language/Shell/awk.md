@@ -43,7 +43,7 @@ lowkeyway@lowkeyway:~$ echo "aa bb cc dd ee" | awk -F 'bb' '{printf $2}'
 
 默认是空格和制表符。
 
-$0 表示当前整行内容，$1，$2 表示第一个字段，第二个字段
+**$0 表示当前整行内容，$1，$2 表示第一个字段，第二个字段**
 
 ```
 lowkeyway@lowkeyway:~/code/test$ echo "aa bb cc dd ee" | awk '{print $0}'
