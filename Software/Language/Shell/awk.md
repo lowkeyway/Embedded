@@ -57,7 +57,66 @@ cc
 ## 3.2 NF（当前行的字段个数）
 
 $NF就代表最后一个字段，$(NF-1)代表倒数第二个字段
+```
+lowkeyway@lowkeyway:~/code$ ll
+总用量 20
+drwxr-x---  5 lowkeyway lowkeyway 4096 2月  19 10:54 ./
+drwxr-xr-x 24 lowkeyway lowkeyway 4096 2月  26 15:31 ../
+drwxr-x---  8 lowkeyway lowkeyway 4096 2月  26 11:36 ldd3/
+drwxr-x---  3 lowkeyway lowkeyway 4096 2月  19 10:54 sysfs/
+drwxr-x---  2 lowkeyway lowkeyway 4096 2月  25 21:24 test/
+lowkeyway@lowkeyway:~/code$ ll | awk '{print $NF}'
+20
+./
+../
+ldd3/
+sysfs/
+test/
+lowkeyway@lowkeyway:~/code$ ll | awk '{print $(NF-1)}'
+总用量
+10:54
+15:31
+11:36
+10:54
+21:24
+lowkeyway@lowkeyway:~/code$ ll | awk '{print NR") ", $0}'
+1)  总用量 20
+2)  drwxr-x---  5 lowkeyway lowkeyway 4096 2月  19 10:54 ./
+3)  drwxr-xr-x 24 lowkeyway lowkeyway 4096 2月  26 15:31 ../
+4)  drwxr-x---  8 lowkeyway lowkeyway 4096 2月  26 11:36 ldd3/
+5)  drwxr-x---  3 lowkeyway lowkeyway 4096 2月  19 10:54 sysfs/
+6)  drwxr-x---  2 lowkeyway lowkeyway 4096 2月  25 21:24 test
+```
+逗号表示输出的变量之间用空格分隔；
 
+右括号必需使用 双引号 才可以原样输出
+
+## 3.4 FILENAME(当前文件名)
+
+```
+lowkeyway@lowkeyway:~/code/test$ awk '{print FILENAME, NR ")", $0}' awk.txt 
+awk.txt 1) aaa
+awk.txt 2) bbb
+awk.txt 3) ccc
+awk.txt 4) ddd
+lowkeyway@lowkeyway:~/code/test$ cat awk.txt | awk '{print FILENAME, NR")", $0}'
+- 1) aaa
+- 2) bbb
+- 3) ccc
+- 4) ddd
+```
+
+awk   '{ condition  action }'   filename 这种形式时可以打印文件名；
+
+通过 |（管道符）读取内容时打印的是 - 
+
+
+## 3.5 其他变量
+
++ RS：行分隔符，用于分割每一行，默认是换行符。
++ OFS：输出字段的分隔符，用于打印时分隔字段，默认为空格。
++ ORS：输出记录的分隔符，用于打印时分隔记录，默认为换行符。
++ OFMT：数字输出的格式，默认为％.6g。
 
 
 https://www.cnblogs.com/kanwan/p/11962607.html
