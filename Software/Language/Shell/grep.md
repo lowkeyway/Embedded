@@ -45,13 +45,13 @@ Linux 中的搜索三剑客之一grep，用来搜索一个文件中的关键字�
 ## 示例
 
 ```
-lowkeyway@lowkeyway:~/code/test$ **grep -irnw foo_test**  
+lowkeyway@lowkeyway:~/code/test$ grep -irnw foo_test  
 匹配到二进制文件 .test.c.swp  
 test.c:35:static void foo_test(char *msg, ...)  
 test.c:110:	//foo_test("Hello", "World","!", "");  
 匹配到二进制文件 a.out  
 
-lowkeyway@lowkeyway:~/code/test$ **find . -name test.c | xargs grep -irnw foo_test**  
+lowkeyway@lowkeyway:~/code/test$ find . -name test.c | xargs grep -irnw foo_test  
 35:static void foo_test(char *msg, ...)  
 110:	//foo_test("Hello", "World","!", "");  
 
