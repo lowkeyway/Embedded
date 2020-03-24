@@ -179,7 +179,7 @@ usebackq        - 1.把单引号字符串作为命令；2.允许中使用双引�
 ```
 Hello,Xi'an
 Hello,Shanxi
-Hello,Batch
+Hello Batch
 ```
 
 那么，将如下代码保存为test.cmd，并放在test.txt同一目录下运行，将会在屏幕上原样显示test.txt的内容：  
@@ -193,9 +193,10 @@ pause
 ```
 Hello,Xi'an
 Hello,Shanxi
-Hello,Batch
+Hello
 Press any key to continue . . .
 ```
+（看如果什么也不加，其实是以空格符、回车符为分隔符。）
 这段代码，主要是让你树立这样一种观念：读取文本文件的内容(注：改为“逐行分析文本文件的内容”，因为读取文本文件内容的方法命令有很多，比如重定向输入，又比如type/more/find/sort等命令)，请使用 for /f 语句！
 
 进阶话题：for /f 语句是把整个test.txt一次性显示出来的？  
@@ -209,6 +210,74 @@ Press any key to continue . . .
 for /f %%i in (test.txt) do echo %%i&pause
 pause
 ```
+## (2) 切分字符串的利器：delims=
+
+还是[txt1]这段文本，把[code4]改造一下：  
+[code6]
+```
+@echo off
+for /f "delims=，" %%i in (test.txt) do echo %%i
+pause
+```
+[result6]
+```
+Hello
+Hello
+Hello Batch
+Press any key to continue . . .
+```
+
+结果，你惊奇地发现，每行第一个逗号之后的所有内容都不见了(如果有不存在逗号的行，则保留原样)，也就说，你成功地提取到了每行第一个逗号之前的所有内容！
+
+也可以这么改：
+[code6.1]
+```
+@echo off
+for /f "delims=" %%i in (test.txt) do echo %%i
+pause
+```
+[result6.1]
+```
+Hello,Xi'an
+Hello,Shanxi
+Hello Batch
+Press any key to continue . . .
+```
+
+可以看到如果增加“delims=”，这样默认就是以回车符为分隔符。
+
+如果别人给了你一个软件清单，每行都是"英文软件名(逗号)中文软件名"的格式，而你却只想保留英文名的时候，这段代码将是多么有用啊！再假设，有 这么一个IP文件，第一列是数字格式的IP地址，第二列是具体的空间地址，列与列之间用逗号分隔，而你想提取其中数字格式的IP，呵呵，我不说你也知道该 怎么办了吧？  
+要是文本内容不是以逗号分隔，而是以其他符号分隔，那么，把"delims=,"的逗号换成相应的符号就可以了。  
+在这里，我们引入了一个新的开关："delims=，"，它的含义是：以逗号作为被处理的字符串的分隔符号。  
+在批处理中，指定分隔符号的方法是：添加一个形如 "delims=符号列表" 的开关，这样，被处理的每行字符串都会被符号列表中罗列出来的符号切分开来。  
+需要注意的是：如果没有指定"delims=符号列表"这个开关，那么，for /f 语句默认以空格键或跳格键作为分隔符号。请把[txt1]中不同位置上的标点符号改为空格或跳格，再运行[code4]试试。  
+
+进阶话题：如果我要指定的符号不止一个，该怎么办？  
+在上面的讲解中，我提到了指定分隔符号的方法：添加一个形如"delims=符号列表"的开关。不知道你注意到没有，我的说法是"符号列表"而非"符号"，这是大有讲究的，因为，你可以一次性指定多个分隔符号！  
+还是以[txt1]为例，把[code6]再改造一下  
+[text7]
+```
+Hello,Xi'an
+Hello,Shanxi
+Hello Batch
+Chiness! Good!
+```
+[code7]  
+```
+@echo off
+for /f "delims=,!" %%i in (test.txt) do echo %%i
+pause
+```
+[result7]
+```
+Hello
+Hello
+Hello Batch
+Chiness
+Press any key to continue . . .
+```
+
+我们可以把多个分隔符写在一块，这样就可以以","和"!"为分隔符。
 
 
 参考链接：
