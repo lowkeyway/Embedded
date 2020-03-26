@@ -288,7 +288,45 @@ Press any key to continue . . .
 tokens= 后面一般跟的是数字，如 tokens=2，也可以跟多个，但是每个数字之间用逗号分隔，如 tokens=3,5,8，它们的含义分别是：提取第2节字符串、提取第3、第5和第8节字符串。注意，这里所说的“节”，是由 delims= 这一开关划分的，它的内容并不是一成不变的。
 
 下面来看一个例子：
+[txt2]
+```
+I have a dream, you have a dream, he has a dream, everybody have a dream!
+```
+对[txt2]这段文本，假设它们保存在文件test.txt中，如果我想提取“ you have a dream”这句话，该如何写代码呢？  
+我们稍微观察一下[txt2]就会发现，如果以逗号作为切分符号，就正好可以把“学好批处理没商量”化为单独的一“节”，结合上一节的讲解，我们知 道，"delims=，" 这个开关是不可缺少的，而要提取的内容在以逗号切分的第3节上，那么，tokens= 后面的数字就应该是2了，最终的代码如下：  
+[code8]
+```
+@echo off
+for /f "delims=, tokens=2" %%i in (test.txt) do echo %%i
+pause
+```
+[result]
+```
+ you have a dream
+Press any key to continue . . .
+```
 
+如果我们现在要提取的不只一个“节”，而是多个，那又怎么办呢？比如，要提取以逗号切分的第2节和第4节字符串，是写成这样吗？  
+[code9]
+```
+@echo off
+for /f "delims=， tokens=2,4" %%i in (test.txt) do echo %%i
+pause
+```
+
+运行批处理后发现，执行结果只显示了第2节的内容。  
+原来，echo 后面的 %%i 只接收到了 tokens=2,5 中第一个数值2所代表的那个字符串，而第二个数值4所代表的字符串因为没有变量来接收，所以就无法在执行结果中显示出来了。  
+那么，要如何接收 tokens= 后面多个数值所指代的内容呢？  
+for /f 语句对这种情况做如下规定：  
+如果 tokens= 后面指定了多个数字，如果形式变量为%%i，那么，第一个数字指代的内容用第一个形式变量%%i来接收，第二个数字指代的内容用第二个形式变量%%j来接收，第三个数字指代的内容用第三个形式变量%%k来接收……第N个数字指代的内容用第N个形式变量来接收，其中，形式变量遵循字母的排序，第N个形式变量具体是什么符号，由第一个形式变量来决定：如果第一个形式变量是%%i，那么，第二个形式变量就是%%j；如果第一个形式变量用的是%%x，那么，第二个 形式变量就是%%y。  
+
+现在回头去看[code9]，你应该知道如何修改才能满足题目的要求了吧？修改结果如下：  
+[code10]
+```
+@echo off
+for /f "delims=， tokens=2,4" %%i in (test.txt) do echo %%i %%j
+pause
+```
 
 参考链接：
 https://www.cnblogs.com/achievegoals/p/9151523.html
