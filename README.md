@@ -28,7 +28,7 @@ Some embedded knowledge, especially for interview.
 ### [OS](https://github.com/lowkeyway/Embedded/tree/master/Software/OS)
 + **[Linux](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Linux)**
 + **Windows**
-+ **Android**
++ **[Android](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Android)**
 + **Threadx**
 + **Bootloader**
 + **[Others](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Others)**
