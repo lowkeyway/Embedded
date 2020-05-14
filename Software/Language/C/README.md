@@ -9,3 +9,4 @@
 + [C89（C90）、C99、C11——C语言的三套标准](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/C89%EF%BC%88C90%EF%BC%89%E3%80%81C99%E3%80%81C11%E2%80%94%E2%80%94C%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A5%97%E6%A0%87%E5%87%86.md)
 + [list_for_each](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/list_for_each.md)
 + [volatile](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/volatile.md)
++ [自建log系统](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/%E8%87%AA%E5%BB%BALog%E7%B3%BB%E7%BB%9F.md)
