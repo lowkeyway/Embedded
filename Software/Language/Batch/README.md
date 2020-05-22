@@ -2,3 +2,4 @@
 
 + **[For](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/Batch/00_For.md)**
 + **[IF](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/Batch/00_For.md)**
++ **[Choice](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/Batch/02_Choice.md)**
