@@ -2,7 +2,7 @@
 
 可以参考这个链接：https://github.com/junegunn/vim-plug
 
-当然，也可以在这里download，另存为 ~/.vim/autoload/plug.vim
+当然，也可以在[这里](https://github.com/lowkeyway/Embedded/blob/master/Software/OS/Linux/Pic/plug.vim)download，另存为 ~/.vim/autoload/plug.vim
 
 # 2. 修改vim.rc
 
