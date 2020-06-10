@@ -6,7 +6,7 @@
 
 # 2. 修改vim.rc
 
-可以参考这个链接。
+可以参考这个[链接](https://github.com/lowkeyway/Embedded/blob/master/Software/OS/Linux/vimrc.md)。
 
 # 3. 更新
 
