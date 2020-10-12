@@ -81,6 +81,24 @@ HS 发送器发送的数据 LP 接收器看到的都是 LP00，
 
 ## C-PHY
 
+### Feature
+
+
++ Uses a group of three conductors, rather than conventional pairs. The group of three wires is called a Lane, and the individual Lines of the Lane are called A, B and C. C-PHY does not have a separate clock Lane. 
+
++ Within a three-wire Lane, two of the three wires are driven to opposite levels; the third wire is terminated to a mid-level (at either one end or both ends), and the voltages at which the wires are driven changes at every symbol. 
+
++ Multiple bits are encoded into each symbol epoch, the data rate is ~2.28x the symbol rate. There is no additional overhead for line coding, such as 8b10b, which is not needed 
+
++ Clock timing is encoded into each symbol. This is accomplished by requiring that the combination of voltages driven onto the wires must change at every symbol boundary. This simplifies clock recovery. 
+
++ The signal is received using a group of three differential receivers 
+
++ The C-PHY interface can co-exist on the same pins/pads as the D-PHY interface signals 
+
+
+
+
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20C%20Option.png">
 
 
