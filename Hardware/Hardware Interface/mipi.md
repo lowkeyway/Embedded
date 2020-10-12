@@ -97,9 +97,38 @@ HS 发送器发送的数据 LP 接收器看到的都是 LP00，
 + The C-PHY interface can co-exist on the same pins/pads as the D-PHY interface signals 
 
 
-
+### 协议框图
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/MIPI%20C%20Option.png">
+
+### 电平标准
+
+虽然C-PHY也分为LP和HS两种模式，但是C-PHY的电平跟D-PHY有少许不一样。
+
+LP： 0 ~ 1.1V
+HS：250mV Normal(V=0.5V). Swing 250mV
+
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/%E7%94%B5%E5%B9%B3%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/%E7%94%B5%E5%B9%B3%E6%8C%87%E6%A0%87.png">
+
+
+### 状态迁移
+
+我们知道了C-PHY每条Lane上是有3跟物理总线的，那么这三条物理总线是如何表达成数字信号的呢？简单的说，C-PHY的3条物理总线可以构成6种状态（没有000/111这两种），这6中状态之间每种状态都有5种迁移的可能，迁移的可能性就可以被编码成数字信号。
+
++ 6种状态
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/6%E7%A7%8D%E7%8A%B6%E6%80%81.png">
+
++ 5种迁移
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/5%E7%A7%8D%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB.png">
+
+### 连续状态编码
+
+我们知道了C-PHY使用了5进制的编码，那么5进制是如何跟AP侧的2进制进行转换的呢？简单的说，就是靠连续状态迁移来实现的，即一个16bit的数据可以翻译成连续的7个5进制（状态迁移）来表示。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/16bit-7symbol%E7%9A%84%E5%8E%8B%E7%BC%A9.png">
 
 
 ## DSI Protocol
