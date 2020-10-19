@@ -94,3 +94,9 @@ LOCAL_SRC_FILES += daemon.c
 LOCAL_MODULE := daemon
 include $(BUILD_EXECUTABLE)
 ```
+
+这里需要强调一个例子，就是.a 文件 和 .so 文件，（静态库&共享库）的区别:
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Language/Makefile/PIC/Android.mk_Static%26Shared_Diff.png">
+
+include $(BUILD_STATIC_LIBRARY) & include $(BUILD_SHARED_LIBRARY)
