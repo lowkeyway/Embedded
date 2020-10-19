@@ -42,3 +42,55 @@ LOCAL_SRC_FILES变量必须包含将要编译打包进模块中的源代码文�
 BUILD_SHARED_LIBRARY是编译系统提供的变量，指向一个GNU Makefile脚本（应该就是build/core目录下的shared_library.mk）,负责收集自从上次调用include $(CLEAR_VARS)以来，定义在LOCAL_\***变量中的所有信息，并且决定编译什么，如何正确地去做，并根据其规则生成动态库。
 
 6. 解释一下Android.mk里变量定义字符”:=”。“:=”类似于c中的宏，即在定义处明确展开，完全进行文本替换。’+=’是追加的意思；‘$’表示引用某变量的值
+
+## 实际应用
+
+```
+TOP_PATH := $(call my-dir)
+LIB_PATH := $(TOP_PATH)/ifplibs
+
+LOCAL_PATH := $(TOP_PATH)
+
+# ifp
+include $(CLEAR_VARS)
+LOCAL_MODULE := libifp
+LOCAL_SRC_FILES := $(LIB_PATH)/libifp.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+# ndkifp
+include $(CLEAR_VARS)
+LOCAL_MODULE := libndkifp
+LOCAL_STATIC_LIBRARIES := libifp
+LOCAL_SRC_FILES := $(LIB_PATH)/libndkifp.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+# ovtafehal.so
+include $(CLEAR_VARS)
+LOCAL_PATH := $(TOP_PATH)
+LOCAL_CFLAGS := $(INCLUDE_PATH)
+#LOCAL_CFLAGS += -Wno-unused-variable
+#LOCAL_CFLAGS += -Wno-array-bounds
+#LOCAL_CFLAGS += -fvisibility=hidden
+LOCAL_CFLAGS += -O3 -c -std=c99 -w -pedantic -fstack-protector --param ssp-buffer-size=4 -fno-short-enums
+LOCAL_CFLAGS += -fPIE -fPIC 
+LOCAL_LDLIBS := -llog -lz
+LOCAL_SRC_FILES := ovt_thp.c ovt_zeroflash.c fws.c ovt_reflash.c
+LOCAL_STATIC_LIBRARIES := ndkifp ifp
+LOCAL_MODULE := ovtafehal 
+include $(BUILD_SHARED_LIBRARY)
+
+# daemon
+include $(CLEAR_VARS)
+LOCAL_PATH := $(TOP_PATH)
+LOCAL_CFLAGS += -Wno-unused-variable
+LOCAL_CFLAGS += -Wno-array-bounds
+LOCAL_CFLAGS += -fvisibility=hidden
+LOCAL_CFLAGS += -O3 -w
+LOCAL_CFLAGS += -fPIE -fPIC -fstack-protector
+LOCAL_LDLIBS := -llog -lz
+# LOCAL_SRC_FILES := ovt_thp.c ovt_zeroflash.c fws.c ovt_reflash.c
+LOCAL_SRC_FILES += daemon.c
+# LOCAL_STATIC_LIBRARIES := ndkifp ifp
+LOCAL_MODULE := daemon
+include $(BUILD_EXECUTABLE)
+```
