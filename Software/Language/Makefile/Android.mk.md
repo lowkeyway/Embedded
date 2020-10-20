@@ -100,3 +100,7 @@ include $(BUILD_EXECUTABLE)
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Language/Makefile/PIC/Android.mk_Static%26Shared_Diff.png">
 
 include $(BUILD_STATIC_LIBRARY) & include $(BUILD_SHARED_LIBRARY)
+
+
+Reference Link:
+https://blog.csdn.net/xx326664162/article/details/52875825
