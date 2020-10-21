@@ -375,3 +375,10 @@ Plug 'vim-scripts/taglist.vim'
 map <silent> <F12> :TlistToggle<cr>  
   
 call plug#end()  
+" Table to space" 
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2                                                                                                                                                                                        
+set ts=2  
+set expandtab  
+set autoindent  
