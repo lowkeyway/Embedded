@@ -101,6 +101,32 @@ include $(BUILD_EXECUTABLE)
 
 include $(BUILD_STATIC_LIBRARY) & include $(BUILD_SHARED_LIBRARY)
 
+# 一、Android.mk文件的用途
+
+一个android子项目中会存在一个或多个Android.mk文件
+## 1、单一的Android.mk文件
+
+直接参考NDK的sample目录下的hello-jni项目，在这个项目中只有一个Android.mk文件
+
+## 2、多个Android.mk文件
+
+如果需要编译的模块比较多，我们可能会将对应的模块放置在相应的目录中，这样，我们可以在每个目录中定义对应的Android.mk文件（类似于上面的写法），最后，在根目录放置一个Android.mk文件，内容如下：
+```
+include $(call all-subdir-makefiles)
+```
+
+只需要这一行就可以了，它的作用就是包含所有子目录中的Android.mk文件。
+
+## 3、多个模块共用一个Android.mk
+
+这个文件允许你将源文件组织成模块，这个模块中含有：
++ 静态库(.a文件)
++ 动态库(共享库)(.so文件) ，只有共享库才能被安装/复制到您的应用软件（APK）包中
+
+include $(BUILD_STATIC_LIBRARY)，编译出的是静态库
+
+include $(BUILD_SHARED_LIBRARY)，编译出的是动态库
 
 Reference Link:
 https://blog.csdn.net/xx326664162/article/details/52875825
+
