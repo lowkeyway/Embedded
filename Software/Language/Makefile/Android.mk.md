@@ -127,6 +127,32 @@ include $(BUILD_STATIC_LIBRARY)，编译出的是静态库
 
 include $(BUILD_SHARED_LIBRARY)，编译出的是动态库
 
+# 二、GNU Make系统变量
+
+这些 GNU Make变量在你的 Android.mk 文件解析之前，就由编译系统定义好了。注意在某些情况下，NDK可能分析 Android.mk 几次，每一次某些变量的定义会有不同。  
+
++ **CLEAR_VARS:**  
+指向一个编译脚本，几乎所有未定义的 LOCAL_XXX 变量都在”Module-description”节中列出。必须在开始一个新模块之前包含这个脚本：include$(CLEAR_VARS)，用于重置除LOCAL_PATH变量外的，所有LOCAL_XXX系列变量。  
++ **BUILD_SHARED_LIBRARY:**  
+指向编译脚本，根据所有的在 LOCAL_XXX 变量把列出的源代码文件编译成一个共享库。  
+注意，需要在这行代码之前定义 LOCAL_MODULE 和 LOCAL_SRC_FILES。
++ **BUILD_STATIC_LIBRARY:** 
+用于编译一个静态库。静态库不会复制到的APK包中，但是能够用于编译共享库。  
+示例：include $(BUILD_STATIC_LIBRARY)  
+注意，这将会生成一个名为 lib$(LOCAL_MODULE).a 的文件  
++ **TARGET_ARCH:**  
+目标 CPU平台的名字
++ **TARGET_PLATFORM:**  
+Android.mk 解析的时候，目标 Android 平台的名字.详情可考/development/ndk/docs/stable- apis.txt.  
+android-3 -> Official Android 1.5 system images  
+android-4 -> Official Android 1.6 system images  
+android-5 -> Official Android 2.0 system images  
++ **TARGET_ARCH_ABI:**  
+暂时只支持两个 value，armeabi 和 armeabi-v7a。
++ **TARGET_ABI:**  目
+标平台和 ABI 的组合.  
+
+
 Reference Link:
 https://blog.csdn.net/xx326664162/article/details/52875825
 
