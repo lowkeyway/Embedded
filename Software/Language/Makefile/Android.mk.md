@@ -152,6 +152,25 @@ android-5 -> Official Android 2.0 system images
 + **TARGET_ABI:**  目
 标平台和 ABI 的组合.  
 
+# 三 、自定义变量
+
+以下是在 Android.mk中依赖或定义的变量列表，可以定义其他变量为自己使用，但是NDK编译系统保留下列变量名：  
+
++ 以 LOCAL_开头的名字（例如 LOCAL_MODULE）  
++ 以 PRIVATE_, NDK_ 或 APP_开头的名字（内部使用)  
++ 小写名字（内部使用，例如‘my-dir’）  
+
+如果为了方便在 Android.mk 中定义自己的变量，建议使用 MY_前缀，一个小例子：
+
+```
+MY_SOURCES := foo.c 
+ifneq ($(MY_CONFIG_BAR),) 
+MY_SOURCES += bar.c 
+endif 
+LOCAL_SRC_FILES += $(MY_SOURCES) 
+```
+
+**注意**：‘:=’是赋值的意思；’+=’是追加的意思；‘$’表示引用某变量的值。
 
 Reference Link:
 https://blog.csdn.net/xx326664162/article/details/52875825
