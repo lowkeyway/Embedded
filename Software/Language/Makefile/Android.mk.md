@@ -172,6 +172,90 @@ LOCAL_SRC_FILES += $(MY_SOURCES)
 
 **注意**：‘:=’是赋值的意思；’+=’是追加的意思；‘$’表示引用某变量的值。
 
+
+# 四 、模块描述变量
+
+下面的变量用于向系统描述我们自己的模块，应该定义在include $(CLEAR_VARS)和include $(BUILD_\***)之间。  
++ **LOCAL_PATH：**  
+这个变量用于给出当前文件的路径，必须在Android.mk的开头定义，可以这样使用：LOCAL_PATH := $(call my-dir)，这样这个变量不会被\$(CLEAR_VARS)清除，因为每个Android.mk只需要定义一次（即使一个文件中定义了多个模块的情况下）。
+
++ **LOCAL_MODULE：**  
+当前模块的名称，这个名称应当是唯一的，并且不能包含空格。模块间的依赖关系就是通过这个名称来引用的。
+
++ **LOCAL_MODULE_CLASS：**  
+标识所编译模块最后放置的位置。
+
+  + ETC表示放置在/system/etc.目录下，
+  + APPS表示放置在/system/app目录下，
+  + SHARED_LIBRARIES表示放置在/system/lib目录下
+  + 如果具体指定，则编译的模块不会放到编译系统中，最后会在out对应product的obj目录下的对应目录中。
+
++ **LOCAL_SRC_FILES：**  
+这是要编译的源代码文件列表。只要列出要传递给编译器的文件即可，编译系统会自动计算依赖关系。源代码文件路径都是相相对于LOCAL_PATH的，因此可以使用相对路径进行描述。
+
+  + 只要列出要传递给编译器的文件，编译系统自动计算依赖。注意源代码文件名称都是相对于 LOCAL_PATH的，你可以使用路径部分，例如：  
+    LOCAL_SRC_FILES := foo.c toto/bar.c\  
+    Hello.c  
+    文件之间可以用空格或Tab键进行分割,换行请用”\”  
+  + 如果是追加源代码文件的话，请用LOCAL_SRC_FILES +=
+  + 可以LOCAL_SRC_FILES := $(call all-subdir-java-files)这种形式来包含local_path目录下的所有java文件。
+
++ **LOCAL_JAVA_LIBRARIES：**  
+当前模块依赖的Java共享库，也叫Java动态库。例如framework.jar包。
+
++ **LOCAL_STATIC_JAVA_LIBRARIES：**  
+当前模块依赖的Java静态库，在Android里，导入的jar包和引用的第三方工程都属于Java静态库。
+
++ **LOCAL_STATIC_LIBRARIES：**  
+指定该模块需要使用哪些静态库，以便在编译时进行链接。
+
++ **LOCAL_SHARED_LIBRARIES：**  
+指定模块在运行时要依赖的共享库（动态库），在链接时就需要，以便在生成文件时嵌入其相应的信息。
+
++ **LOCAL_C_INCLUDES：**   
+可选变量，表示头文件的搜索路径。 默认的头文件的搜索路径是LOCAL_PATH目录。
+
++ **LOCAL_CFLAGS：**  
+提供给C/C++编译器的额外编译参数。
+
++ **LOCAL_PACKAGE_NAME：**  
+当前APK应用的名称。
+
++ **LOCAL_CERTIFICATE：**  
+签署当前应用的证书名称。
+
++ **LOCAL_MODULE_TAGS：**  
+当前模块所包含的标签，一个模块可以包含多个标签。标签的值可能是eng、user、debug、development、optional。其中，optional是默认标签。
+
++ **LOCAL_DEX_PREOPT：**  
+apk的odex优化开关，默认是false。
+
++ **LOCAL_LDLIBS:**  
+编译模块时要使用的附加的链接器选项。这对于使用‘-l’前缀传递指定库的名字是有用的。  
+例如，LOCAL_LDLIBS := -lz表示告诉链接器生成的模块要在加载时刻链接到/system/lib/libz.so  
+可查看 docs/STABLE-APIS.TXT 获取使用 NDK发行版能链接到的开放的系统库列表。  
+
++ **LOCAL_MODULE_PATH 和 LOCAL_UNSTRIPPED_PATH**  
+在 Android.mk 文件中， 还可以用LOCAL_MODULE_PATH 和LOCAL_UNSTRIPPED_PATH指定最后的目标安装路径.  
+不同的文件系统路径用以下的宏进行选择：  
+
+  + TARGET_ROOT_OUT：表示根文件系统。
+  + TARGET_OUT：表示 system文件系统。
+  + TARGET_OUT_DATA：表示 data文件系统。
+      如：LOCAL_MODULE_PATH :=$(TARGET_ROOT_OUT)
+      至于LOCAL_MODULE_PATH 和LOCAL_UNSTRIPPED_PATH的区别，暂时还不清楚。
+
++ **LOCAL_JNI_SHARED_LIBRARIES：**  
+定义了要包含的so库文件的名字，如果程序没有采用jni，不需要LOCAL_JNI_SHARED_LIBRARIES := libxxx 这样在编译的时候，NDK自动会把这个libxxx打包进apk； 放在youapk/lib/目录下  
+除此之外，Build系统中还定义了一些函数方便在Android.mk中使用，包括：  
+
+  + $(call my-dir)：获取当前文件夹的路径。
+  + $(call all-java-files-under, )：获取指定目录下的所有java文件。
+  + $(call all-c-files-under, )：获取指定目录下的所有c文件。
+  + $(call all-Iaidl-files-under, )：获取指定目录下的所有AIDL文件。
+  + $(call all-makefiles-under, )：获取指定目录下的所有Make文件。
+  + $(call intermediates-dir-for, , , ,
+
 Reference Link:
 https://blog.csdn.net/xx326664162/article/details/52875825
 
