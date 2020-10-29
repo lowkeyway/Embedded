@@ -256,6 +256,32 @@ apk的odex优化开关，默认是false。
   + $(call all-makefiles-under, )：获取指定目录下的所有Make文件。
   + $(call intermediates-dir-for, , , ,
 
+# 五、NDK提供的函数宏
+
+GNU Make函数宏，必须通过使用’$(call )’来调用，返回值是文本化的信息。  
++ **my-dir:**  
+返回当前 Android.mk 所在的目录的路径，相对于 NDK 编译系统的顶层。在 Android.mk 文件的开头如此定义： LOCAL_PATH := $(call my-dir)  
++ **all-subdir-makefiles:**   
+返回一个位于当前’my-dir’路径的子目录中的所有Android.mk的列表。  
+例如，某一子项目的目录层次如下：
+
+```
+src/foo/Android.mk
+src/foo/lib1/Android.mk
+src/foo/lib2/Android.mk
+```
+如果 src/foo/Android.mk 文件中使用了： include $(call all-subdir-makefiles)那么它就会自动包含 src/foo/lib1/Android.mk 和 src/foo/lib2/Android.mk。  
+这项功能用于向编译系统提供深层次嵌套的代码目录层次。  
+注意，在默认情况下，NDK 将会只搜索在 src/*/Android.mk 中的文件。  
+
++ **this-makefile:**  
+返回当前Makefile 的路径(即这个函数调用的地方)  
++ **parent-makefile:**  
+返回调用树中父 Makefile 路径。即包含当前Makefile的Makefile 路径。
++ **grand-parent-makefile：**  
+返回调用树中父Makefile的父Makefile的路径
+
+
 Reference Link:
 https://blog.csdn.net/xx326664162/article/details/52875825
 
