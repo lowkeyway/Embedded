@@ -281,6 +281,68 @@ src/foo/lib2/Android.mk
 + **grand-parent-makefile：**  
 返回调用树中父Makefile的父Makefile的路径
 
+# 六、 Android.mk示例
+
+## 编译静态库
+
+```
+LOCAL_PATH := $(call my-dir) 
+include $(CLEAR_VARS) 
+LOCAL_MODULE = libhellos 
+LOCAL_CFLAGS =$(L_CFLAGS) 
+LOCAL_SRC_FILES = hellos.c 
+LOCAL_C_INCLUDES = $(INCLUDES) 
+LOCAL_SHARED_LIBRARIES := libcutils 
+LOCAL_COPY_HEADERS_TO := libhellos 
+LOCAL_COPY_HEADERS := hellos.h 
+include $(BUILD_STATIC_LIBRARY) 
+```
+
+## 编译动态库
+
+```
+LOCAL_PATH := $(call my-dir) 
+include $(CLEAR_VARS) 
+LOCAL_MODULE = libhellod 
+LOCAL_CFLAGS = $(L_CFLAGS) 
+LOCAL_SRC_FILES = hellod.c 
+LOCAL_C_INCLUDES = $(INCLUDES) 
+LOCAL_SHARED_LIBRARIES := libcutils 
+LOCAL_COPY_HEADERS_TO := libhellod 
+LOCAL_COPY_HEADERS := hellod.h 
+include $(BUILD_SHARED_LIBRARY
+```
+
+## 使用静态库
+
+```
+LOCAL_PATH := $(call my-dir) 
+include $(CLEAR_VARS) 
+LOCAL_MODULE := hellos 
+LOCAL_STATIC_LIBRARIES := libhellos 
+LOCAL_SHARED_LIBRARIES := 
+LOCAL_LDLIBS += -ldl 
+LOCAL_CFLAGS := $(L_CFLAGS) 
+LOCAL_SRC_FILES := mains.c 
+LOCAL_C_INCLUDES := $(INCLUDES) 
+include $(BUILD_EXECUTABLE) 
+```
+
+## 使用动态库
+
+```
+LOCAL_PATH := $(call my-dir) 
+include $(CLEAR_VARS) 
+LOCAL_MODULE := hellod 
+LOCAL_MODULE_TAGS := debug 
+LOCAL_SHARED_LIBRARIES := libc libcutils libhellod 
+LOCAL_LDLIBS += -ldl 
+LOCAL_CFLAGS := $(L_CFLAGS) 
+LOCAL_SRC_FILES := maind.c 
+LOCAL_C_INCLUDES := $(INCLUDES) 
+include $(BUILD_EXECUTABLE) 
+```
+
 
 Reference Link:
 https://blog.csdn.net/xx326664162/article/details/52875825
