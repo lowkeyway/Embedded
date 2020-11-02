@@ -12,7 +12,7 @@ Some embedded knowledge, especially for interview.
 
 ### [Process Architecture](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Processor%20architecture)
 * **[ARM](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Processor%20architecture/ARM)**
-* **RISC-V**
+* **[RISC](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Processor%20architecture/RISC)**
 
 ## [Software](https://github.com/lowkeyway/Embedded/tree/master/Software)
 ### [Compile](https://github.com/lowkeyway/Embedded/tree/master/Software/Compile)
