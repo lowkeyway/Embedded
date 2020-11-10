@@ -46,7 +46,7 @@ Host gitlab
   HostName Omnivision
   PreferredAuthentications publickey
   IdentityFile ~/.ssh/id_rsa
-Host github
+Host github.com
   HostName github.com
   PreferredAuthentications publickey
   IdentityFile ~/.ssh/github_id_rsa
