@@ -16,7 +16,7 @@ $ ssh-keygen -t rsa -C "youremail@gmail.com"
 注意不要一路回车，要给这个文件起一个名字， 比如叫 id_rsa_github, 所以相应的也会生成一个 id_rsa_github.pub 文件
 
 目录结构:
-{img src="https://github.com/lowkeyway/Embedded/blob/master/Software/OS/Pic/Windows/SSH%20Key.png"}
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/OS/Pic/Windows/SSH%20Key.png">
 
 # 添加私钥
 
