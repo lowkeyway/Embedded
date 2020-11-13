@@ -27,5 +27,46 @@ Jupyter Notebook是基于网页的用于交互计算的应用程序。其可被�
 + 支持使用LaTeX编写数学性说明。
 
 
+# 二、安装Jupyter Notebook
+
+## 1. 安装
+### 1.1 安装前提
+安装Jupyter Notebook的前提是需要安装了Python（3.3版本及以上，或2.7版本）。
+
+### 1.2 使用Anaconda安装
+
+如果你是小白，那么建议你通过安装Anaconda来解决Jupyter Notebook的安装问题，因为Anaconda已经自动为你安装了Jupter Notebook及其他工具，还有python中超过180个科学包及其依赖项。  
+常规来说，安装了Anaconda发行版时已经自动为你安装了Jupyter Notebook的，但如果没有自动安装，那么就在终端（Linux或macOS的“终端”，Windows的“Anaconda Prompt”，以下均简称“终端”）中输入以下命令安装：
+```
+conda install jupyter notebook
+```
+
+### 1.3 使用pip命令安装
+如果你是有经验的Python玩家，想要尝试用pip命令来安装Jupyter Notebook，那么请看以下步骤吧！接下来的命令都输入在终端当中的噢！  
+
+#### 把pip升级到最新版本
++ Python 3.x
+```
+pip3 install --upgrade pip
+```
+
++ Python 2.x
+```
+pip install --upgrade pip
+```
+**注意：**老版本的pip在安装Jupyter Notebook过程中或面临依赖项无法同步安装的问题。因此强烈建议先把pip升级到最新版本。
+
+#### 安装Jupyter Notebook
+
++ Python 3.x
+```
+pip3 install jupyter
+```
+
++ Python 2.x
+```
+pip install jupyter
+```
+
 
 参考： https://zhuanlan.zhihu.com/p/33105153
