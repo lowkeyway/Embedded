@@ -34,7 +34,7 @@ Some embedded knowledge, especially for interview.
 + **[Others](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Others)**
 
 ### [Driver](https://github.com/lowkeyway/Embedded/tree/master/Software/Driver)
-+ **LCD**
++ **[LCD](https://github.com/lowkeyway/Embedded/tree/master/Software/Driver/LCD)** 
 + **[Touch](https://github.com/lowkeyway/Embedded/tree/master/Software/Driver/Touch)**
 + **[Camera](https://github.com/lowkeyway/Embedded/tree/master/Software/Driver/Camera)**
 + **Flash**
