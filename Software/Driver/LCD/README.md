@@ -1,3 +1,1 @@
-# LCD
-
-本文件夹用来存放LCD相关的知识。
++ **[00_Introduction](https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/LCD/00_Introduction.md)**
