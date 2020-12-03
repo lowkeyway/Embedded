@@ -36,7 +36,7 @@
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/LCD/02_Gray%20scale%20%26%20Color%20depth.png">
 
-In 16 bits Driving Case (5R6G5B) = 2<sup>5</sup>R × 2<sup>6</sup>G × 2<sup>5</sup>B  = 32R × 64G × 32B = 65,536 color depth display
+In 16 bits Driving Case (5R6G5B) = 2<sup>5</sup>R × 2<sup>6</sup>G × 2<sup>5</sup>B  = 32R × 64G × 32B = 65,536 color depth display  
 Color depth decided by driver IC function and module design
 
 
