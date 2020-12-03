@@ -4,3 +4,31 @@
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/LCD/00_LCD%26OLED%E5%AF%B9%E6%AF%94.png">
 
+# Resolution & PPI
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/LCD/01_Resolution.png">
+
++ Portrait M<N
++ Landscape M>N
+
+## Pixel and Sub-pixel
++ RGB strip pixel structure
++ 3 sub-pixel -> 1 pixel
+
+## PPI 
++ Pixel density Per Inch
++ PPI=√(𝑀^2+𝑁^2 )/𝑠𝑖𝑧𝑒 
+
+## Main resolution for MP
++ QQVGA(128 x 160)
++ QVGA(240 x 320)
++ WQVGA(240 x 400 or 432)
++ HVGA(320 x 480)
++ nHD(360 x 640)
++ WVGA(480 x 800)
++ FWVGA(480 x 854 or 864)
++ QHD/+(540/640 x 960) 
++ HD720(720 x 1280)
++ WXGA(768/800 x 1280)
++ FHD(1080 x 1920)
+
