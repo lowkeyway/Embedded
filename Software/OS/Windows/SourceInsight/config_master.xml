@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceInsightMasterConfiguration
+	AppVer="4.00.0114"
+	AppVerMinReader="4.00.0032"
+	>
+	<!-- This is a Master configuration file. -->
+	<!-- It tells Source Insight where to store and get configuration settings. -->
+
+	<!-- Options: -->
+	<!-- If OverrideWithFile contains a file name, then all config parts are retained in that one file. -->
+	<!-- If OverrideWidthFile is '0' or empty, then ConfigurationParts section is used. -->
+	<Options OverrideWithFile="config_all.xml" />
+
+	<!-- ConfigurationParts tells Source Insight where to store and get individual parts -->
+	<!-- of the configuration. Each element contains a file name attribute. -->
+	<!-- The same file can appear in multiple parts, which means the file will -->
+	<!-- contains multiple parts. -->
+
+	<!-- Special Values:     -->
+	<!-- Prefix with 'project_source:' the file is relative to the project source directory. -->
+	<!-- Prefix with 'project_data:' the file is relative to the project data directory. -->
+	<ConfigurationParts>
+		<GeneralPreferences file="config_all.xml" />
+		<DisplayPreferences file="config_all.xml" />
+		<EditingPreferences file="config_all.xml" />
+		<SyntaxFormatting file="config_all.xml" />
+		<SyntaxDecorations file="config_all.xml" />
+		<DisplayColors file="config_all.xml" />
+		<FilePreferences file="config_all.xml" />
+		<LookupPreferences file="config_all.xml" />
+		<Menus file="config_all.xml" />
+		<Keymaps file="config_all.xml" />
+		<CustomCommands file="config_all.xml" />
+		<FileTypes file="config_all.xml" />
+		<Styles file="config_all.xml" />
+		<FTPSites file="config_all.xml" />
+		<RemoteAccess file="config_all.xml" />
+		<ProjectSync file="config_all.xml" />
+		<ProjectDefaults file="config_all.xml" />
+		<Logging file="config_all.xml" />
+		<Languages file="config_all.xml" />
+		<ParsingOptions file="config_all.xml" />
+		<Search file="config_all.xml" />
+		<SearchWeb file="config_all.xml" />
+		<Toolbars file="config_all.xml" />
+		<PrintPageSetup file="config_all.xml" />
+		<ProjectReport file="config_all.xml" />
+		<SymbolPane file="config_all.xml" />
+		<ImportLibs file="config_all.xml" />
+		<ParseConditions file="config_all.xml" />
+		<SourceFormatter file="config_all.xml" />
+		<HtmlExport file="config_all.xml" />
+		<BookmarkWindow file="config_all.xml" />
+		<SnippetWindow file="config_all.xml" />
+		<ClipWindow file="config_all.xml" />
+		<ContextWindow file="config_all.xml" />
+		<DirectoryCompareWindow file="config_all.xml" />
+		<FileCompareWindow file="config_all.xml" />
+		<ProjectFileWindow file="config_all.xml" />
+		<ProjectFileTypeWindow file="config_all.xml" />
+		<ProjectFolderWindow file="config_all.xml" />
+		<ProjectSymbolWindow file="config_all.xml" />
+		<ProjectSymbolTypeWindow file="config_all.xml" />
+		<WindowListWindow file="config_all.xml" />
+		<RelationWindow file="config_all.xml" />
+		<FTPWindow file="config_all.xml" />
+	</ConfigurationParts>
+</SourceInsightMasterConfiguration>
