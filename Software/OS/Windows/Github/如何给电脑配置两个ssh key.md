@@ -22,7 +22,7 @@ $ ssh-keygen -t rsa -C "youremail@gmail.com"
 
 ```
 $ ssh-add ~/.ssh/id_rsa
-$ ssh-add ~/.ssh/id_rsa_github
+$ ssh-add ~/.ssh/github_id_rsa
 ```
 如果执行ssh-add时提示"Could not open a connection to your authentication agent"，可以现执行命令：
 ```
