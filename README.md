@@ -31,7 +31,7 @@ Some embedded knowledge, especially for interview.
 + **[Android](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Android)**
 + **[Harmony](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Harmony)**
 + **Threadx**
-+ **Bootloader**
++ **[Bootloader](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Bootloader)**
 + **[Others](https://github.com/lowkeyway/Embedded/tree/master/Software/OS/Others)**
 
 ### [Driver](https://github.com/lowkeyway/Embedded/tree/master/Software/Driver)
