@@ -45,3 +45,65 @@ LoadLibrary("./libtarget.so")表示导入同目录下的libtarget.so文件。
 
 这里涉及到C语言的调用约定，gcc使用的调用约定是cdecl，windows动态库一般使用stdcall调用约定，既然是调用约定，就肯定是关于调用时的规则，他们之间的主要区别就是cdecl调用时由调用者清除被调用函数栈，而stdcall规定由被调用者清除被调用函数栈。
 
+
+# 例子
+
+# 初级版本
+
+## 1. 我们可以先写一个test.c，这个文件只做一件事情，printf("Hello World\n").
+```
+#include <stdio.h>                                                                                                                                                                                          
+
+void hello_world(void)
+{
+  printf("Hello World\n");
+}
+
+int main()
+{
+ hello_world();
+ return 0;
+}
+```
+
+## 2. 搭配一个简单的Makefile，实现编译so库的目的：
+```
+GCC ?= gcc                                                                                                                                                                                                  
+CFLAGS = -Wall -Wconversion -O3 -fPIC
+SOFLAGS = -fPIC --shared 
+SRC = test.c
+
+all:
+  $(GCC) $(CFLAGS) $(SRC)
+lib:
+  $(GCC) $(SOFLAGS) $(SRC) -o lowkeyway.so
+clean:
+  -rm -rf *.so *.o *.txt *.out
+```
+
+## 3. 执行make lib命令，编译出lowkeyway.so
+```
+make lib
+```
+这样我们就可以在当前目录下看到lowkeyway.so了。
+```
+lowkeyway@lowkeyway:/media/sf_ubuntu/code/my_code/test$ ls
+lowkeyway.so  Makefile  test.c  test.py
+```
+
+## 4. 编写test.py，加载lowkeyway.so并且调用lowkeyway.so中的hello_world函数
+```
+from ctypes import *                                                                                                                                                                                        
+test = cdll.LoadLibrary("./lowkeyway.so")
+test.hello_world()
+```
+
+来执行以下看看？
+```
+lowkeyway@lowkeyway:/media/sf_ubuntu/code/my_code/test$ python3 test.py 
+Hello World
+```
+
+正常输出！
+
+
