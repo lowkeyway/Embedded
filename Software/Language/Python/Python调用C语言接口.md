@@ -98,7 +98,7 @@ test = cdll.LoadLibrary("./lowkeyway.so")
 test.hello_world()
 ```
 
-来执行以下看看？
+来执行一下看看？
 ```
 lowkeyway@lowkeyway:/media/sf_ubuntu/code/my_code/test$ python3 test.py 
 Hello World
