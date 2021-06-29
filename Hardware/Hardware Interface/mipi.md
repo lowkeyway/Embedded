@@ -60,6 +60,19 @@ HS 发送器发送的数据 LP 接收器看到的都是 LP00，
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/ULPS%20Enter.png">
 
+低速传输与解包：
+
+Mipi.write 11
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/mipi_write_11.png">
+
+Mipi.write 29
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/mipi_write_29.png">
+
+Mipi.read 0a
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Hardware/Hardware%20Interface/PictureSrc/MIPI/mipi_read_0a.png">
+
+注：逻辑分析仪中的图片看不出来，但是实际的read的波形要比write的波形要矮一些。
+
 
  ### 5、时序要求
  
