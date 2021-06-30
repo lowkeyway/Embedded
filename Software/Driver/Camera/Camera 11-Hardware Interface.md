@@ -120,4 +120,35 @@ Sensor的实际像点数量通常比标准的图像分辨率（如2048x1536，19
 + 黑像素，即dark pixel，像点上方覆盖的是不透光的金属，相当于零输入的情况，用于检测像素的暗电流水平
 + 滤波像素，即filter pixel，很多ISP算法会使用3x3或5x5大小的滤波窗口，因此需要在输出分辨率的基础上增加若干行、列使滤波窗口内全是有效像素。
 
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2011-%E5%B8%A7%E7%BB%93%E6%9E%84.sensor.png">
+
+Sensor 的输出信号中除了像素数据之外，还需要一些控制信号用于时间同步。每一帧开始时会有一个FrameStart 同步信号，在一帧内会用HSYNC信号指示哪些时钟周期携带了有效像素，以及会用VSYNC信号指示哪些行中携带了有效像素。未携带有效像素的时钟周期称为消隐周期，又分为水平消隐（horizontal blanking）和垂直消隐（vertical blanking），如下图所示。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2011-%E5%B8%A7%E7%BB%93%E6%9E%84.Signal.png">  
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2011-%E5%B8%A7%E7%BB%93%E6%9E%84.Data.png">
+
+以上图为例，sensor输出的每一行由以下单元组成
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2011-%E5%B8%A7%E7%BB%93%E6%9E%84.Line.png">
+
+而sensor输出的每一帧图像由以下行组成
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2011-%E5%B8%A7%E7%BB%93%E6%9E%84.Frame.png">
+
+
+Sensor 处理每一行都需要若干个水平消隐周期(Porch)用于处理一些内部逻辑，在此基础上用户也可以增加消隐周期用于调节每行的曝光时间，起到间接调整帧率的作用。同理，sensor 每帧都需要若干个垂直消隐周期用于为下一帧做准备，在此基础上用户也可以增加一些消隐周期用于调整帧率。
+
+因此，当sensor 主频确定后，垂直消隐的行数是用户控制sensor 输出帧率的主要手段，而水平消隐的周期数是调整帧率的辅助手段。尽管有两个参数都可以起到调整帧率的作用，但为了简单起见，人们往往以SONY 厂家推荐的水平消隐参数作为参考标准，使sensor 每一行的行长（时钟周期数）与SONY 同类型号保持一致，在此基础上继续调节垂直消隐，达到用户需要的帧率。
+
+需要注意的是，当用户配置的积分时间（行数）参数大于一帧的有效行数时，sensor 会把超出的行数自动视作额外的垂直消隐，因此会在两帧之间插入额外的延时，导致sensor 输出帧率下降。
+
+再举一个OV7725的例子，下图是OV7725的VGA时序，其特点是:
+
++ 每一帧开始时同步信号VSYNC有效并持续4行时间（4 tline），
++ 每一行开始时同步信号HSYNC有效并持续64个tp （1tp=2PCLK），
++ 在HREF为高电平时每一行有效时间为640tp，无效时间为144tp，每一行时间为tline=784tp；
++ 每一帧总行数是510，其中有效行数是480
++ 采集一帧数据的时间是784*510tp。
+
 
