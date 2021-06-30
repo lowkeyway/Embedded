@@ -25,7 +25,7 @@ Camera 传感器作为Camera模组中最重要的一部分，它肩负着把光�
 从结构上看CCD跟CMOS的内部结构图其实是差不多的，我们这里以比较详细的CMOS为例，List一下Sensor中的各个部件：
 
 + **A – Colour filter array（彩色滤光阵列）**</br>
-它的作用是将光纤过滤成R/G/B三种颜色其中之一的单色光。排列方式如流行的“拜耳阵列(Bayer Array)”。</br>
+它的作用是将光线过滤成R/G/B三种颜色其中之一的单色光。排列方式如流行的“拜耳阵列(Bayer Array)”。</br>
 拜耳阵列模拟人眼对色彩的敏感程度，采用1红2绿1蓝的排列方式（4×4阵列，有8个绿色、4个蓝色和4个红色像素）将灰度信息转换成彩色信息。采用这种技术的传感器实际每个像素仅有一种颜色信息，需要利用反马赛克算法进行插值计算，最终获得一张图像。
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Sensor/Camera%2006-Sensor%20%E6%8B%9C%E8%80%B3%E9%98%B5%E5%88%97.png">
