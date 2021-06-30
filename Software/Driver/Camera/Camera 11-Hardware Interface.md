@@ -152,3 +152,29 @@ Sensor 处理每一行都需要若干个水平消隐周期(Porch)用于处理一
 + 采集一帧数据的时间是784*510tp。
 
 
+### 数据帧格式
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/camera%2011-%E6%95%B0%E6%8D%AE%E6%B5%81.shortpackage.png">
+
+字节(byte)为基本传输单元，每个byte中有8位(bit)
+
++ SYNC BYTE：用来同步数据开始，告知接下来为有效数据
+
++ DATA TYPE：该包传输的是什么格式的数据
+
+  + YUV422, (1E)
+  + RAW8, (2A)
+  + RAW10, (2B)
+
+
++ WORD COUNT： 16bits, PAYLOAD中的byte数量（即输出窗口的1行中有多少个字节，也即列数。注意raw10为列数的1.25倍，raw12为列数的1.5倍）
+
++ ECC：校验datatype和wc是否出错
+
++ PAYLOAD : image data
+
++ CSC：PAYLOAD数据传输校验
+
+*由于插入了许多数据标识，所以会影响hb或者vb的最小值
+
+通过D-Phy数据通道发送的载荷数据采用的是数据包的格式。它可以是长的数据包，也可以是短的数据包。长数据包包含32位的包头、有效载荷数据和16位的数据包脚注。短数据包只包含32位的包头。
