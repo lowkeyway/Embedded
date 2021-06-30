@@ -2,6 +2,27 @@
 
 在了解Camera在Android中的软件结构之前，我们还是要先看一看在实际工程中，Camera的硬件接口。这样有助于我们回顾前面讲的模组相关内容，也便于理解后面的Camera Driver以及HAL的知识。
 
+## 接口分类
+
+常见类型有MIPI、DVP和usb接口：
+
++ DVP总线：
+  + PCLK极限大约在96M左右，而且走线长度不能过长，所有DVP最大速率最好控制在72M以下，故PCB layout会较好画。一般而言，96M pclk是DVP的极限;
+  + DVP是并口传输，速度较慢，传输的带宽低，使用需要PCLK\sensor输出时钟、MCLK（XCLK）\外部时钟输入、VSYNC\场同步、HSYNC\行同步、D[0：11]\并口数据——可以是8/10/12bit数据位数大小;
+    + PCLK：像素点同步时钟信号，每个PCLK对应一个像素点，可以为48MHz；对于时钟信号，一般做包地处理，减少对其他信号的干扰，还需要在源端加电阻和电容，减少过冲和振铃，从而减少对其他信号的干扰。
+    + MCLK（XCLK）：外部时钟输入，可由主控或晶振提供，由sensor规格书确定，可以为24MHZ；
+    + VSYNC：帧同步信号，一帧一个信号，频率为几十Hz（30Hz）
+    + HSYNC：行同步信号（频率为几十KHz）
+    + 例如：分别率 320×240的屏，每一行需要输入320个脉冲来依次移位、锁存这一行的数据，然后来个HSYNC 脉冲换一行；这样依次输入240行之后换行同时来个VSYNC脉冲把行计数器清零，又重新从第一行开始刷新显示。
+
+<img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Camera%2011-DVP.jpg">
+
++ MIPI总线：
+  + 速率随便就几百M，而且是lvds接口耦合，走线必须差分等长，并且注意保护，故对PCB走线以及阻抗控制要求高一点;
+  + MIPI是LVDS（Low Voltage Differential Signaling，低电压差分信号），低压差分串口。只需要要CLKP/N、DATAP/N——最大支持4-lane;
+
+MIPI接口比DVP的接口信号线少，由于是低压差分信号，产生的干扰小，抗干扰能力也强。最重要的是DVP接口在信号完整性方面受限制，速率也受限制。500W还可以勉强用DVP，800W及以上都采用MIPI接口。
+
 ## 原理图
 
 一个合格的驱动工程师怎么能不会看原理图呢？我们可以以MT6797中Defaule Design中窥视一下Camera的接口：
