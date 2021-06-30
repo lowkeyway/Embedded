@@ -23,6 +23,8 @@
 
 MIPI接口比DVP的接口信号线少，由于是低压差分信号，产生的干扰小，抗干扰能力也强。最重要的是DVP接口在信号完整性方面受限制，速率也受限制。500W还可以勉强用DVP，800W及以上都采用MIPI接口。
 
+** 注：下面我们只讲MIPI接口总线的。 **
+
 ## 原理图
 
 一个合格的驱动工程师怎么能不会看原理图呢？我们可以以MT6797中Defaule Design中窥视一下Camera的接口：
@@ -105,3 +107,17 @@ MIPI接口比DVP的接口信号线少，由于是低压差分信号，产生的�
 再看整个初始化过程：
 
 <img src="https://github.com/lowkeyway/Embedded/blob/master/Software/Driver/Pic/Camera/Android/Camera%2005-Android%20%E5%88%9D%E5%A7%8B%E5%8C%96%E6%B5%81%E7%A8%8B.png">
+
+## 帧同步
+
+在DVP接口中，有HSYNC和VSYNC以及PCLK，AP和Camera之间保证了同步。那么，对于MIPI接口呢?
+在camera领域人们所说的MIPI接口一般是指MIPI CSI-2规范，该规范使用长、短两种封包格式，其中长包用来传输图像数据，短包用来传输HSYNC,VSYNC等控制信号。
+
+### 帧结构
+
+Sensor的实际像点数量通常比标准的图像分辨率（如2048x1536，1920x1080等）要大一些，多出来的像点主要有两种作用，
+
++ 黑像素，即dark pixel，像点上方覆盖的是不透光的金属，相当于零输入的情况，用于检测像素的暗电流水平
++ 滤波像素，即filter pixel，很多ISP算法会使用3x3或5x5大小的滤波窗口，因此需要在输出分辨率的基础上增加若干行、列使滤波窗口内全是有效像素。
+
+
