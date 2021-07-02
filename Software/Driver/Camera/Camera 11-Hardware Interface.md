@@ -1,6 +1,6 @@
 # 硬件接口-Camera Driver IC
 
-在了解Camera在Android中的软件结构之前，我们还是要先看一看在实际工程中，Camera的硬件接口。这样有助于我们回顾前面讲的模组相关内容，也便于理解后面的Camera Driver以及HAL的知识。
+在了解Camera在Android中的软件结构之前，我们还是要先看一看在实际工程中，Camera的硬件接口。
 
 ## 接口分类
 
