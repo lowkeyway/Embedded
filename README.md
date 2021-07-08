@@ -11,11 +11,12 @@ Some embedded knowledge, especially for interview.
 + **USB**
 
 ### [Process Architecture](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Processor%20architecture)
-* **[ARM](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Processor%20architecture/ARM)**
-* **[RISC-V](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Processor%20architecture/RISC-V)**
++ **[ARM](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Processor%20architecture/ARM)**
++ **[RISC-V](https://github.com/lowkeyway/Embedded/tree/master/Hardware/Processor%20architecture/RISC-V)**
 
 ## [Software](https://github.com/lowkeyway/Embedded/tree/master/Software)
 ### [Compile](https://github.com/lowkeyway/Embedded/tree/master/Software/Compile)
++ **[GCC](https://github.com/lowkeyway/Embedded/tree/master/Software/Compile/GCC)**
 
 ### [Language](https://github.com/lowkeyway/Embedded/tree/master/Software/Language)
 + **[C](https://github.com/lowkeyway/Embedded/tree/master/Software/Language/C)**
