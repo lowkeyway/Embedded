@@ -10,3 +10,4 @@
 + [list_for_each](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/list_for_each.md)
 + [volatile](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/volatile.md)
 + [自建log系统](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/%E8%87%AA%E5%BB%BALog%E7%B3%BB%E7%BB%9F.md)
++ [__VA_ARGS__](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/__VA_ARGS__.md)
