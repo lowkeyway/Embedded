@@ -876,10 +876,10 @@ v4l2_subdev代表子设备，包含了子设备的相关属性和操作。结构
 ```
 struct v4l2_subdev {
     struct v4l2_device *v4l2_dev;  //指向父设备
-    conststruct v4l2_subdev_ops *ops; //提供一些控制v4l2设备的接口
-    conststruct v4l2_subdev_internal_ops *internal_ops; //向V4L2框架提供的接口函数
-    structv4l2_ctrl_handler *ctrl_handler; //subdev控制接口
-    charname[V4L2_SUBDEV_NAME_SIZE]; 
+    consts truct v4l2_subdev_ops *ops; //提供一些控制v4l2设备的接口
+    consts truct v4l2_subdev_internal_ops *internal_ops; //向V4L2框架提供的接口函数
+    struct v4l2_ctrl_handler *ctrl_handler; //subdev控制接口
+    char name[V4L2_SUBDEV_NAME_SIZE]; 
     struct video_device *devnode;  
     ..........
 };
