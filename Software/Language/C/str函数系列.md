@@ -165,7 +165,7 @@ char *strstr(const char str1, const char *str2)
 	while(length1>=length2)
 	{
 		length1--;
-		if(!strncpy(str1,str2,length2))//比较前n个字符串，类似strcpy
+		if(!strncmp(str1,str2,length2))//比较前n个字符串，类似strcpy
 			return str1;
 		str1++;
 	}
