@@ -12,3 +12,4 @@
 + [自建log系统](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/%E8%87%AA%E5%BB%BALog%E7%B3%BB%E7%BB%9F.md)
 + [__VA_ARGS__](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/__VA_ARGS__.md)
 + [字符串查找](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E6%89%BE%E5%87%BD%E6%95%B0.md)
++ [str函数系列](https://github.com/lowkeyway/Embedded/blob/master/Software/Language/C/str%E5%87%BD%E6%95%B0%E7%B3%BB%E5%88%97.md)
